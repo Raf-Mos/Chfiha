@@ -77,6 +77,9 @@ WSGI_APPLICATION = 'chfiha.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# Load environment variables from .env file
+load_dotenv()
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
