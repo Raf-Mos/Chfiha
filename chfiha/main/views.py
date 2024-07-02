@@ -1,5 +1,5 @@
 from django.views.generic import ListView
-# from django.views.generic import TemplateView
+from django.views.generic import TemplateView
 from .models import Project, Service
 
 
@@ -11,10 +11,10 @@ class Home(ListView):
 class about(TemplateView):
     template_name = 'about.html'
 
-class contact(template_name):
+class contact(TemplateView):
     template_name = 'contact.html'
 
-class login(template_name):
+class login(TemplateView):
     template_name = 'login.html'
 
 class order(ListView):
