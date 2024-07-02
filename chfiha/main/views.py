@@ -3,7 +3,6 @@ from django.views.generic import TemplateView
 from .models import Project, Service
 
 
-
 class AboutPageView(TemplateView):
     template_name = 'about.html'
 
