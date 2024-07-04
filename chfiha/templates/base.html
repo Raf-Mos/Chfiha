@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chfiha</title>
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    <link href="{% static 'css/login.css' %}" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo"><a href="{% url 'home' %}">Chfiha</a></h1>
+            <nav class="navbar">
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'logout' %}" class="nav-form">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-link">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-link">Login</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+    <div class="content">
+        {% block content %}
+        {% endblock content %}
+    </div>
+</body>
+</html>
+

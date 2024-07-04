@@ -14,9 +14,6 @@ class HomePageView(ListView):
     template_name = 'home.html'
     context_object_name = 'all_services_list'
 
-class LoginPageView(TemplateView):
-    template_name = 'login.html'
-
 class OrderPageView(ListView):
     model = Project
     template_name = 'order.html'
