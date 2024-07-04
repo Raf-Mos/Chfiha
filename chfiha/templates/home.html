@@ -3,11 +3,31 @@
 
 {% block content %}
 
-<ul>
-  <li>service 1</li>
-  <li>service 2</li>
-  <li>service 3</li>
-  <li>service 4</li>
-</ul>
+<section class="centered-section">
+    <h1>Find your<br>Tech solution</h1>
+</section>
+
+<section class="search-section">
+    <div class="search-bar">
+        <select class="form-select" aria-label="Category select">
+            <option selected>Choose category</option>
+            <option value="1">Web Development</option>
+            <option value="2">App Development</option>
+            <option value="3">AI & Machine Learning</option>
+        </select>
+        <input type="text" class="form-control" placeholder="Search for tech services">
+    </div>
+    <div class="card-section">
+        <!-- Card -->
+        <div class="card service-card">
+            <img src="path/to/image1.jpg" class="card-img-top" alt="Service 1">
+            <div class="card-body">
+                <h5 class="card-title">$100 - Web Development</h5>
+                <p class="card-text">Build modern and responsive websites.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
 
 {% endblock content %}
