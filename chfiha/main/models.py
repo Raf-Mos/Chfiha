@@ -1,8 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
+from accounts.models import CustomUser
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
 
@@ -31,7 +31,7 @@ class Project(models.Model):
         ('I', 'In Progress'),
         ('C', 'Completed'),
     ]
-    client = models.ForeignKey(User, on_delete=models.CASCADE)
+    client = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     description = models.TextField()
     start_date = models.DateField()
@@ -43,7 +43,7 @@ class Project(models.Model):
 
 class Review(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    client = models.ForeignKey(User, on_delete=models.CASCADE)
+    client = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     rating = models.IntegerField()
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
