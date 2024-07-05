@@ -16,6 +16,12 @@ class CustomUserCreationForm(UserCreationForm):
                 attrs={'placeholder': 'Last Name'})
             )
 
+    # Override the labels for password fields
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].widget.attrs.update({'placeholder': 'New Password'})
+        self.fields['password2'].widget.attrs.update({'placeholder': 'Confirm New Password'})
+
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'password1', 'password2')

@@ -23,12 +23,6 @@
                                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
                                     <form class="mx-1 mx-md-4" method="post">
                                         {% csrf_token %}
-                                        <!-- <input type="text" name="{{ form.first_name.name }}" placeholder="First Name" required> -->
-                                        <!-- <input type="text" name="{{ form.last_name.name }}" placeholder="Last Name" required> -->
-                                        <!-- <input type="email" name="{{ form.email.name }}" placeholder="Email" required> -->
-                                        <!-- <input type="password" name="{{ form.password1.name }}" placeholder="Password" required> -->
-                                        <!-- <input type="password" name="{{ form.password2.name }}" placeholder="Confirm Password" required> -->
-
                                         {% for field in form %}
                                         <p>
                                           {% if field.errors %}
