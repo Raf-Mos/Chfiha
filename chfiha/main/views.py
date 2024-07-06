@@ -19,9 +19,6 @@ class OrderPageView(ListView):
     template_name = 'order.html'
     context_object_name = 'all_projects_list'
 
-class RegisterPageView(TemplateView):
-    template_name = 'register.html'
-
 class ServicePageView(ListView):
     model = Service
     template_name = 'services.html'

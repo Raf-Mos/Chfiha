@@ -4,6 +4,6 @@ from django.views import generic
 
 
 class SignUpView(generic.CreateView):
-    form_class = CustomUserCreationForm  # Use your custom form
+    form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
