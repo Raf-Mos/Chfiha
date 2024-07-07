@@ -23,3 +23,8 @@ class ServicePageView(ListView):
     model = Service
     template_name = 'services.html'
     context_object_name = 'all_services_list'
+
+class MessagesPageView(ListView):
+    model = Service
+    template_name = 'messages.html'
+    context_object_name = 'all_messages_list'
