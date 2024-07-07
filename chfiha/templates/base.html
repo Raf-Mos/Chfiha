@@ -1,75 +1,103 @@
 {% load static %}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chfiha</title>
-    <link href="{% static 'css/base.css' %}" rel="stylesheet">
-    <link href="{% static 'css/login.css' %}" rel="stylesheet">
-    <link href="{% static 'css/home.css' %}" rel="stylesheet">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Include Tailwind CSS and Font Awesome Kit -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
+<body class="bg-gray-100">
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}">Chfiha</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
-            <div class="navbar-nav mx-auto">
-                <a class="nav-link active" aria-current="page" href="#">Services</a>
-                <a class="nav-link" href="#">About</a>
-                <a class="nav-link" href="#">Contact</a>
-            </div>
-            <div class="navbar-nav">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-bell"></i> <!-- Notification icon -->
-                </a>
-                <a class="nav-link" href="#">
-                    <i class="bi bi-envelope"></i> <!-- Messages icon -->
-                </a>
-                {% if user.is_authenticated %}
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="path/to/profile-pic.jpg" alt="Profile" class="rounded-circle" width="30" height="30"> <!-- Profile picture -->
-                        <span class="ms-2">{{ user.username }}</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li>
-                            <form method="post" action="{% url 'logout' %}">
-                                {% csrf_token %}
-                                <button type="submit" class="dropdown-item">Logout</button>
-                            </form>
-                        </li>
-                        
-                    </ul>
+    <!-- Navigation Menu -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 text-2xl font-bold">
+                    Chfiha
                 </div>
-                {% else %}
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="path/to/profile-pic.jpg" alt="Profile" class="rounded-circle" width="30" height="30"> <!-- Profile picture -->
-                        <span class="ms-2"></span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
-                        <li><a class="dropdown-item" href="{% url 'signup' %}">Sign Up</a></li>
-                    </ul>
+                <div class="flex space-x-4 items-center">
+                    <a href="{% url 'home' %}" class="text-gray-900 hover:text-gray-700">Home</a>
+                    <a href="#" class="text-gray-900 hover:text-gray-700">About Us</a>
+                    <a href="#" class="text-gray-900 hover:text-gray-700">Contact Us</a>
+                    {% if user.is_authenticated %}
+                    <div class="relative">
+                        <!-- Font Awesome messages icon with light grey background -->
+                        <a href="#" class="text-gray-900 hover:text-gray-700 flex items-center">
+                            <span class="inline-block bg-gray-200 rounded-full p-2">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                        </a>
+                        <!-- Red dot for notification -->
+                        <div class="absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 rounded-full w-3 h-3"></div>
+                    </div>
+                    <a href="#" class="text-gray-900 hover:text-gray-700">{{ user.username }}</a>
+                    <a href="{% url 'signup' %}" class="text-gray-900 hover:text-gray-700">Sign Up</a>
+                    <a href="{% url 'logout' %}" class="text-gray-900 hover:text-gray-700">Logout</a>
+                    {% else %}
+                    <a href="{% url 'signup' %}" class="text-gray-900 hover:text-gray-700">Sign Up</a>
+                    <a href="{% url 'login' %}" class="text-gray-900 hover:text-gray-700">Login</a>
+                    {% endif %}
                 </div>
-                {% endif %}
             </div>
         </div>
-    </div>
-</nav>
-
+    </nav>
 
     {% block content %}
     {% endblock content %}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-y-8 md:gap-x-8">
+            <!-- Column 1 -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold">Company</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-300 hover:text-white">About Us</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white">Careers</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white">Partnerships</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white">Terms of Service</a></li>
+                </ul>
+            </div>
+            <!-- Column 2 -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold">Services</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-300 hover:text-white">Web Design</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white">App Development</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white">Digital Marketing</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white">SEO Services</a></li>
+                </ul>
+            </div>
+            <!-- Column 3 -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold">Resources</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-300 hover:text-white">Blog</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white">Case Studies</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white">Whitepapers</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white">Help Center</a></li>
+                </ul>
+            </div>
+            <!-- Column 4 -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold">Contact Us</h3>
+                <ul class="space-y-2">
+                    <li>123 Tech Street</li>
+                    <li>City, Country</li>
+                    <li>Email: info@chfiha.com</li>
+                    <li>Phone: +1 (123) 456-7890</li>
+                </ul>
+            </div>
+        </div>
+        <div class="bg-gray-700 py-4 text-center">
+            <p>&copy; 2024 Chfiha. All rights reserved.</p>
+        </div>
+    </footer>
+
 </body>
 </html>
 

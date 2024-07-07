@@ -3,31 +3,85 @@
 
 {% block content %}
 
-<section class="centered-section">
-    <h1>Find your<br>Tech solution</h1>
-</section>
+    <!-- Main Content -->
+    <main>
+        <!-- Gradient Section -->
+        <section class="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 text-white text-center py-16">
+            <p class="text-5xl font-bold mb-8">Find your Tech solution</p>
+            <p class="max-w-3xl mx-auto text-lg text-gray-200">
+                At Chfiha, our mission is to simplify tech solutions for clients, offering intuitive services that meet your needs efficiently and effectively.
+            </p>
+        </section>
 
-<section class="search-section">
-    <div class="search-bar">
-        <select class="form-select" aria-label="Category select">
-            <option selected>Choose category</option>
-            <option value="1">Web Development</option>
-            <option value="2">App Development</option>
-            <option value="3">AI & Machine Learning</option>
-        </select>
-        <input type="text" class="form-control" placeholder="Search for tech services">
-    </div>
-    <div class="card-section">
-        <!-- Card -->
-        <div class="card service-card">
-            <img src="path/to/image1.jpg" class="card-img-top" alt="Service 1">
-            <div class="card-body">
-                <h5 class="card-title">$100 - Web Development</h5>
-                <p class="card-text">Build modern and responsive websites.</p>
+        <!-- Services Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <!-- Card 1 -->
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 h-20"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Service Title 1</h3>
+                        <p class="text-gray-700 mb-4">$99.99</p>
+                        <p class="text-gray-600">Description of the service goes here. Make sure it's descriptive and enticing.</p>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-yellow-400 via-red-500 to-pink-600 h-20"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Service Title 2</h3>
+                        <p class="text-gray-700 mb-4">$149.99</p>
+                        <p class="text-gray-600">Description of the service goes here. Make sure it's descriptive and enticing.</p>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-pink-400 via-purple-500 to-blue-600 h-20"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Service Title 3</h3>
+                        <p class="text-gray-700 mb-4">$199.99</p>
+                        <p class="text-gray-600">Description of the service goes here. Make sure it's descriptive and enticing.</p>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-600 h-20"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Service Title 4</h3>
+                        <p class="text-gray-700 mb-4">$249.99</p>
+                        <p class="text-gray-600">Description of the service goes here. Make sure it's descriptive and enticing.</p>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-red-400 via-yellow-500 to-green-600 h-20"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Service Title 5</h3>
+                        <p class="text-gray-700 mb-4">$299.99</p>
+                        <p class="text-gray-600">Description of the service goes here. Make sure it's descriptive and enticing.</p>
+                    </div>
+                </div>
+                <!-- Card 6 -->
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-600 h-20"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Service Title 6</h3>
+                        <p class="text-gray-700 mb-4">$349.99</p>
+                        <p class="text-gray-600">Description of the service goes here. Make sure it's descriptive and enticing.</p>
+                    </div>
+                </div>
+                <!-- Add more cards as needed -->
             </div>
-        </div>
+        </section>
 
-    </div>
-</section>
+        <!-- Free Consultation Section -->
+        <section class="bg-gray-200 text-gray-900 text-center py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-bold mb-4">Get your free consultation today!</h2>
+                <p class="mb-8">For a limited time offer, take advantage of our expert consultation services.</p>
+                <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Schedule Now</a>
+            </div>
+        </section>
+    </main>
 
 {% endblock content %}
