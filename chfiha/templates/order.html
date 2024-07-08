@@ -42,27 +42,92 @@
         <!-- Messaging Section -->
         <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
             <h2 class="text-xl font-semibold mb-4">Messages</h2>
-            <div class="h-64 overflow-y-auto mb-4 p-4 bg-gray-200 rounded-lg">
-                <!-- Example Messages -->
-                <div class="flex items-start mb-4">
-                    <div class="bg-blue-500 text-white p-3 rounded-lg shadow-lg">
-                        <p>Hi there! I have started working on the initial design. Please review the attached files.</p>
+            <div class="flex flex-col space-y-4 max-h-96 overflow-y-auto">
+                <!-- Example message from sender -->
+                <div class="flex justify-start">
+                    <div class="bg-gray-200 p-4 rounded-lg max-w-md">
+                        <p class="text-gray-900">Hello, I'm looking forward to the initial design.</p>
                     </div>
                 </div>
-                <div class="flex items-start mb-4 justify-end">
-                    <div class="bg-gray-300 p-3 rounded-lg shadow-lg">
-                        <p>Thank you! I'll review them and get back to you shortly.</p>
+                <!-- Example message from receiver -->
+                <div class="flex justify-end">
+                    <div class="bg-blue-500 p-4 rounded-lg max-w-md text-white">
+                        <p>Hi! The initial design is ready and I've attached it for your review.</p>
                     </div>
                 </div>
-                <div class="flex items-start mb-4">
-                    <div class="bg-blue-500 text-white p-3 rounded-lg shadow-lg">
-                        <p>Great! Looking forward to your feedback.</p>
+                <!-- Example message from sender -->
+                <div class="flex justify-start">
+                    <div class="bg-gray-200 p-4 rounded-lg max-w-md">
+                        <p class="text-gray-900">Thank you! I'll review it and get back to you soon.</p>
+                    </div>
+                </div>
+                <!-- Example message from receiver -->
+                <div class="flex justify-end">
+                    <div class="bg-blue-500 p-4 rounded-lg max-w-md text-white">
+                        <p>Great! Let me know if you need any changes.</p>
+                    </div>
+                </div>
+                <!-- Example message from sender -->
+                <div class="flex justify-start">
+                    <div class="bg-gray-200 p-4 rounded-lg max-w-md">
+                        <p class="text-gray-900">I have reviewed the design, and it's fantastic!</p>
+                    </div>
+                </div>
+                <!-- Example message from receiver -->
+                <div class="flex justify-end">
+                    <div class="bg-blue-500 p-4 rounded-lg max-w-md text-white">
+                        <p>I'm glad you liked it. Shall we proceed with content integration?</p>
+                    </div>
+                </div>
+                <!-- Example message from sender -->
+                <div class="flex justify-start">
+                    <div class="bg-gray-200 p-4 rounded-lg max-w-md">
+                        <p class="text-gray-900">Yes, please go ahead.</p>
+                    </div>
+                </div>
+                <!-- Attachment preview sender -->
+                <div class="flex justify-start">
+                    <div class="bg-gray-100 p-4 rounded-lg max-w-md">
+                        <a href="#" class="text-blue-500 hover:underline">requirements.pdf</a>
+                    </div>
+                </div>
+                <!-- Example message from receiver -->
+                <div class="flex justify-end">
+                    <div class="bg-blue-500 p-4 rounded-lg max-w-md text-white">
+                        <p>Awesome! I'll start working on it and keep you updated.</p>
+                    </div>
+                </div>
+                <!-- Example message from sender -->
+                <div class="flex justify-start">
+                    <div class="bg-gray-200 p-4 rounded-lg max-w-md">
+                        <p class="text-gray-900">Perfect. Thank you!</p>
+                    </div>
+                </div>
+                <!-- Example message from receiver -->
+                <div class="flex justify-end">
+                    <div class="bg-blue-500 p-4 rounded-lg max-w-md text-white">
+                        <p>You're welcome!</p>
+                    </div>
+                </div>
+                <!-- Attachment preview receiver -->
+                <div class="flex justify-end">
+                    <div class="bg-gray-100 p-4 rounded-lg max-w-md">
+                        <a href="#" class="text-blue-500 hover:underline">design_mockup.pdf</a>
                     </div>
                 </div>
             </div>
-            <div class="flex">
-                <input type="text" class="flex-grow p-3 border rounded-l-lg" placeholder="Type your message...">
-                <button class="bg-blue-500 text-white p-3 rounded-r-lg">Send</button>
+            <!-- Message input area -->
+            <div class="flex items-center mt-4">
+                <input type="text" placeholder="Type your message..." class="flex-grow p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mr-4">
+                <div class="relative">
+                    <input type="file" id="file-upload" class="hidden">
+                    <label for="file-upload" class="cursor-pointer text-gray-600 hover:text-gray-800">
+                        <i class="fas fa-paperclip fa-lg"></i>
+                    </label>
+                </div>
+                <button class="bg-blue-500 text-white py-2 px-4 rounded-lg shadow-lg ml-4">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
             </div>
         </div>
 
@@ -74,8 +139,6 @@
                 <a href="service.html" class="bg-white text-blue-500 font-bold py-2 px-4 rounded-lg shadow-lg inline-block mb-2">View Service</a>
             </div>
         </div>
-
-
     </main>
 
 {% endblock content %}
