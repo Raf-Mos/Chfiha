@@ -13,7 +13,7 @@ class CustomUserAdmin(UserAdmin):
         (None, {'fields': ('email', 'password')}),
         ('Personal Info', {'fields': ('first_name', 'last_name')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'groups', 'user_permissions')}),
-        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+        # Remove 'date_joined' from this fieldset
     )
     add_fieldsets = (
         (None, {
@@ -25,3 +25,4 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('email',)
 
 admin.site.register(CustomUser, CustomUserAdmin)
+
