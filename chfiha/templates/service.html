@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
 
     <!-- Main Content -->
@@ -8,9 +7,9 @@
 
         <!-- Service Banner with Gradient -->
         <div class="bg-gradient-to-r from-blue-400 to-purple-500 text-white py-6 px-8 rounded-lg shadow-lg mb-8">
-            <h1 class="text-4xl font-bold mb-4">Web Design Service</h1>
+            <h1 class="text-4xl font-bold mb-4">{{ service.title }}</h1>
             <p class="text-white">
-                Description of the service goes here. Make sure it's descriptive and enticing.
+                {{ service.description }}
             </p>
         </div>
 
@@ -18,31 +17,20 @@
         <section class="mb-8">
             <h2 class="text-2xl font-semibold mb-4">Features</h2>
             <ul class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+                {% for feature in service.features %}
                 <li class="flex items-center space-x-2">
                     <i class="fas fa-check text-blue-500"></i>
-                    <span>Responsive Design</span>
+                    <span>{{ feature }}</span>
                 </li>
-                <li class="flex items-center space-x-2">
-                    <i class="fas fa-check text-blue-500"></i>
-                    <span>SEO Optimization</span>
-                </li>
-                <li class="flex items-center space-x-2">
-                    <i class="fas fa-check text-blue-500"></i>
-                    <span>E-commerce Integration</span>
-                </li>
-                <li class="flex items-center space-x-2">
-                    <i class="fas fa-check text-blue-500"></i>
-                    <span>Custom CMS Development</span>
-                </li>
+                {% endfor %}
             </ul>
         </section>
 
         <!-- Larger Detailed Real Description -->
         <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">Larger Detailed Real Description</h2>
+            <h2 class="text-2xl font-semibold mb-4">Description</h2>
             <p class="text-gray-700">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante. Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-                Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.
+                {{ service.detailed_description }}
             </p>
         </section>
 
@@ -53,22 +41,22 @@
                 <!-- Pricing Option 1 -->
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <h3 class="text-xl font-semibold text-blue-500 mb-4">Basic</h3>
-                    <p class="text-gray-700 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                    <p class="text-gray-700 font-bold mb-4">$499</p>
+                    <p class="text-gray-700 mb-4">{{ service.price_basic_description }}</p>
+                    <p class="text-gray-700 font-bold mb-4">${{ service.price_basic }}</p>
                     <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg focus:outline-none">Choose Plan</button>
                 </div>
                 <!-- Pricing Option 2 -->
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <h3 class="text-xl font-semibold text-blue-500 mb-4">Standard</h3>
-                    <p class="text-gray-700 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                    <p class="text-gray-700 font-bold mb-4">$799</p>
+                    <p class="text-gray-700 mb-4">{{ service.price_standard_description }}</p>
+                    <p class="text-gray-700 font-bold mb-4">${{ service.price_standard }}</p>
                     <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg focus:outline-none">Choose Plan</button>
                 </div>
                 <!-- Pricing Option 3 -->
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <h3 class="text-xl font-semibold text-blue-500 mb-4">Premium</h3>
-                    <p class="text-gray-700 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                    <p class="text-gray-700 font-bold mb-4">$1199</p>
+                    <p class="text-gray-700 mb-4">{{ service.price_premium_description }}</p>
+                    <p class="text-gray-700 font-bold mb-4">${{ service.price_premium }}</p>
                     <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg focus:outline-none">Choose Plan</button>
                 </div>
             </div>
@@ -76,3 +64,4 @@
     </main>
 
 {% endblock content %}
+

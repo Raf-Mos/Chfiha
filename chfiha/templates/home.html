@@ -28,7 +28,7 @@
                                 <p class="text-gray-700 font-bold text-lg">${{ service.price_basic }}</p>
                             </div>
                             <div class="mt-4">
-                                <a href="#" class="block w-full text-center text-white bg-indigo-500 hover:bg-indigo-600 py-2 rounded-lg text-sm font-semibold">Details</a>
+                                <a href="{% url 'service' pk=service.pk %}" class="block w-full text-center text-white bg-indigo-500 hover:bg-indigo-600 py-2 rounded-lg text-sm font-semibold">Details</a>
                             </div>
                         </div>
                     </div>
