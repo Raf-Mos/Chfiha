@@ -8,6 +8,7 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
+    ordering = ('email',)  # Order by email, or any other valid field
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
