@@ -35,7 +35,10 @@
                         <div class="absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 rounded-full w-3 h-3"></div>
                     </div>
                     <a href="#" class="text-gray-900 hover:text-gray-700">{{ user.username }}</a>
-                    <a href="{% url 'logout' %}" class="text-gray-900 hover:text-gray-700">Logout</a>
+                    <form action="{% url 'logout' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="text-gray-900 hover:text-gray-700">Logout</button>
+                    </form>
                     {% else %}
                     <a href="{% url 'signup' %}" class="text-gray-900 hover:text-gray-700">Sign Up</a>
                     <a href="{% url 'login' %}" class="text-gray-900 hover:text-gray-700">Login</a>
