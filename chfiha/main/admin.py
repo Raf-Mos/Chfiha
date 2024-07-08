@@ -8,3 +8,6 @@ admin.site.register(Profile)
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('title', 'price_basic', 'price_standard', 'price_premium')
     search_fields = ('title', 'description')
+
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'bio', 'profile_picture')

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Services{% endblock title %}
+
+{% block content %}
+
+<!-- Services Section -->
+        <section class="bg-gradient-to-b from-gray-100 to-white py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    {% for service in services %}
+                    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                        <div class="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 h-28 flex items-center justify-center rounded-t-lg">
+                            <h3 class="text-white text-xl font-semibold">{{ service.title }}</h3>
+                        </div>
+                        <div class="p-6 bg-white">
+                            <p class="text-gray-600">{{ service.description }}</p>
+                            <div class="mt-4">
+                                <p class="text-gray-700 font-bold text-lg">${{ service.price_basic }}</p>
+                            </div>
+                            <div class="mt-4">
+                                <a href="{% url 'service' pk=service.pk %}" class="block w-full text-center text-white bg-indigo-500 hover:bg-indigo-600 py-2 rounded-lg text-sm font-semibold">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+{% endblock content %}
