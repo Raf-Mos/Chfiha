@@ -15,8 +15,7 @@
             <p class="text-white">Service: {{ order.service.title }}</p>
             <p class="text-white">Deadline: {{ order.end_date }}</p>
             <p class="text-white">Status: {{ order.step5_status }}</p>
-            <a href="{% url 'order_detail' order.pk %}"
-                class="mt-4 bg-white text-blue-600 font-bold py-2 px-4 rounded focus:outline-none">View Details</a>
+            <button class="mt-4 bg-white text-blue-600 font-bold py-2 px-4 rounded focus:outline-none">View Details</button>
         </div>
         {% endfor %}
         {% else %}
