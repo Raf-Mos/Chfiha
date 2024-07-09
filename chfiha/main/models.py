@@ -57,7 +57,7 @@ class Project(models.Model):
     step5_file = models.FileField(upload_to='project_files/step5', blank=True, null=True)
 
     def __str__(self):
-        return f"{self.service.name} for {self.client.username}"
+        return f"{self.service.title} for {self.client.username}"
 
 class Review(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
