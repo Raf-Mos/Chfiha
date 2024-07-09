@@ -15,10 +15,14 @@ class HomePageView(ListView):
     template_name = 'home.html'
     context_object_name = 'services'
 
-class OrderPageView(ListView):
-    model = Project
-    template_name = 'order.html'
-    context_object_name = 'all_projects_list'
+class OrderPageView(TemplateView):
+    model = Project  # Specify the model you want to fetch details for
+    template_name = 'order_detail.html'  # Your template file
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add any additional context data here if needed
+        return context
 
 class MessagesPageView(ListView):
     model = Service
