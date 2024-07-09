@@ -6,7 +6,7 @@ class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
     profile_picture = models.ImageField(upload_to='static/profile_pictures/', blank=True, null=True)
-    is_client = models.BooleanField(default=False)
+    is_client = models.BooleanField(default=True)
     is_freelancer = models.BooleanField(default=False)
 
     def __str__(self):
