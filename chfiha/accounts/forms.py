@@ -5,19 +5,16 @@ from .models import CustomUser
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(
         widget=forms.TextInput(attrs={
-            'placeholder': 'Email',
             'class': 'mt-1 px-4 py-2 block w-full border border-gray-300 rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent'
         })
     )
     first_name = forms.CharField(
         max_length=30, widget=forms.TextInput(attrs={
-            'placeholder': 'First Name',
             'class': 'mt-1 px-4 py-2 block w-full border border-gray-300 rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent'
         })
     )
     last_name = forms.CharField(
         max_length=30, widget=forms.TextInput(attrs={
-            'placeholder': 'Last Name',
             'class': 'mt-1 px-4 py-2 block w-full border border-gray-300 rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent'
         })
     )
@@ -25,11 +22,9 @@ class CustomUserCreationForm(UserCreationForm):
     # Override the labels for password fields
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['password1'].widget.attrs.update({'placeholder': 'New Password',
-                                                      'class': 'mt-1 px-4 py-2 block w-full border border-gray-300 rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent'
+        self.fields['password1'].widget.attrs.update({'class': 'mt-1 px-4 py-2 block w-full border border-gray-300 rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent'
                                                       })
-        self.fields['password2'].widget.attrs.update({'placeholder': 'Confirm New Password',
-                                                      'class': 'mt-1 px-4 py-2 block w-full border border-gray-300 rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent'
+        self.fields['password2'].widget.attrs.update({'class': 'mt-1 px-4 py-2 block w-full border border-gray-300 rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent'
                                                       })
 
     class Meta:
