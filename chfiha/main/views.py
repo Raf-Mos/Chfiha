@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView
 from django.views.generic import TemplateView
 from .models import Project, Service
+from django.shortcuts import render
 
 
 class AboutPageView(TemplateView):
@@ -33,3 +34,18 @@ class ServicesView(ListView):
     model = Service
     template_name = 'services.html'
     context_object_name = 'services'
+
+class OrdersMessagesView(TemplateView):
+    template_name = 'ordersmessages.html'  # Your template file
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.profile.is_client:
+            orders = Project.objects.filter(client=self.request.user)
+        elif self.request.user.profile.is_freelancer:
+            orders = Project.objects.filter(freelancer=self.request.user)
+        else:
+            orders = []
+        context['orders'] = orders
+        return context
+
