@@ -6,6 +6,8 @@ class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
     profile_picture = models.ImageField(upload_to='static/profile_pictures/', blank=True, null=True)
+    is_client = models.BooleanField(default=False)
+    is_freelancer = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.email
@@ -34,12 +36,25 @@ class Project(models.Model):
         ('I', 'In Progress'),
         ('C', 'Completed'),
     ]
-    client = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    order_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
+    client = models.ForeignKey(CustomUser, related_name='client_projects', on_delete=models.CASCADE, null=True, blank=True)
+    freelancer = models.ForeignKey(CustomUser, related_name='freelancer_projects', on_delete=models.CASCADE, null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     description = models.TextField()
     start_date = models.DateField()
     end_date = models.DateField()
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
+
+    step1_completed = models.BooleanField(default=False)
+    step1_file = models.FileField(upload_to='project_files/step1', blank=True, null=True)
+    step2_completed = models.BooleanField(default=False)
+    step2_file = models.FileField(upload_to='project_files/step2', blank=True, null=True)
+    step3_completed = models.BooleanField(default=False)
+    step3_file = models.FileField(upload_to='project_files/step3', blank=True, null=True)
+    step4_completed = models.BooleanField(default=False)
+    step4_file = models.FileField(upload_to='project_files/step4', blank=True, null=True)
+    step5_completed = models.BooleanField(default=False)
+    step5_file = models.FileField(upload_to='project_files/step5', blank=True, null=True)
 
     def __str__(self):
         return f"{self.service.name} for {self.client.username}"
