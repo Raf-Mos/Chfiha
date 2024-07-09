@@ -32,28 +32,28 @@ class Service(models.Model):
 
 class Project(models.Model):
     STATUS_CHOICES = [
-        ('P', 'Pending'),
+        ('D', 'Delivered'),
         ('I', 'In Progress'),
-        ('C', 'Completed'),
+        ('P', 'Pending'),
     ]
-    order_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
-    client = models.ForeignKey(CustomUser, related_name='client_projects', on_delete=models.CASCADE, null=True, blank=True)
-    freelancer = models.ForeignKey(CustomUser, related_name='freelancer_projects', on_delete=models.CASCADE, null=True, blank=True)
+
+    order_number = models.CharField(max_length=20, unique=True)
+    client = models.ForeignKey(CustomUser, related_name='client_projects', on_delete=models.CASCADE)
+    freelancer = models.ForeignKey(CustomUser, related_name='freelancer_projects', on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     description = models.TextField()
     start_date = models.DateField()
     end_date = models.DateField()
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
 
-    step1_completed = models.BooleanField(default=False)
+    step1_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     step1_file = models.FileField(upload_to='project_files/step1', blank=True, null=True)
-    step2_completed = models.BooleanField(default=False)
+    step2_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     step2_file = models.FileField(upload_to='project_files/step2', blank=True, null=True)
-    step3_completed = models.BooleanField(default=False)
+    step3_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     step3_file = models.FileField(upload_to='project_files/step3', blank=True, null=True)
-    step4_completed = models.BooleanField(default=False)
+    step4_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     step4_file = models.FileField(upload_to='project_files/step4', blank=True, null=True)
-    step5_completed = models.BooleanField(default=False)
+    step5_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     step5_file = models.FileField(upload_to='project_files/step5', blank=True, null=True)
 
     def __str__(self):
