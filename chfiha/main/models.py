@@ -37,9 +37,9 @@ class Project(models.Model):
         ('P', 'Pending'),
     ]
 
-    order_number = models.CharField(max_length=20, unique=True)
-    client = models.ForeignKey(CustomUser, related_name='client_projects', on_delete=models.CASCADE)
-    freelancer = models.ForeignKey(CustomUser, related_name='freelancer_projects', on_delete=models.CASCADE)
+    order_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
+    client = models.ForeignKey(CustomUser, related_name='client_projects', on_delete=models.CASCADE, null=True, blank=True)
+    freelancer = models.ForeignKey(CustomUser, related_name='freelancer_projects', on_delete=models.CASCADE, null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     description = models.TextField()
     start_date = models.DateField()
