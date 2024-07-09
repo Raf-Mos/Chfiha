@@ -42,12 +42,10 @@
                                         
                     {% if profile %}
                         {% if profile.profile_picture %}
-                            <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="{{ profile.profile_picture }}" alt="Profile">
+                            <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="{{ profile.profile_picture.url }}" alt="Profile">
                         {% else %}
-                            <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="static/profile_pictures/9334228.jpg" alt="Profile">
+                            <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="{% static 'profile_pictures/9334228.jpg' %}" alt="Profile Picture">
                         {% endif %}
-                    {% else %}
-                        <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="static/profile_pictures/9334228.jpg" alt="Profile">
                     {% endif %}
 
                     <!-- Dropdown menu -->
