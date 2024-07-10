@@ -1,9 +1,48 @@
 <!-- templates/registration/login.html -->
 {% extends 'base.html' %}
 {% block content %}
-<form method="post" class="login-form">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn-submit">Log In</button>
-</form>
+
+<!-- Main Content -->
+<main class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center">
+    <div class="max-w-md w-full mx-auto p-8 bg-white rounded-lg shadow-lg">
+        <h2 class="text-3xl font-bold text-center mb-6">Login to Chfiha</h2>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="mb-4">
+                <label for="id_email" class="block text-sm font-semibold text-gray-700">Email Address</label>
+                {{ form.username }}
+                {{form.username.error}}
+            </div>
+            <div class="mb-6">
+                <label for="id_password" class="block text-sm font-semibold text-gray-700">Password</label>
+                {{ form.password }}
+                {{ form.password.error }}
+            </div>
+            <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50">Login</button>
+        </form>
+        <div class="mt-6 text-center">
+            <a href="{% url 'password_reset' %}" class="text-sm text-purple-600 hover:text-purple-700">Forgot Password?</a>
+        </div>
+    </div>
+</main>
+
+<script>
+    // JavaScript to add styling attributes to the username input field
+    document.addEventListener('DOMContentLoaded', function() {
+      const passwordInput = document.getElementById('id_password');
+      const usernameInput = document.getElementById('id_username');
+
+      // Add attributes dynamically
+      usernameInput.classList.add('mt-1', 'px-4', 'py-2', 'block', 'w-full', 'border', 'border-gray-300', 'rounded-md', 'bg-gray-100', 'focus:outline-none', 'focus:ring-2', 'focus:ring-purple-600', 'focus:border-transparent');
+      usernameInput.setAttribute('autofocus', '');
+      usernameInput.setAttribute('autocomplete', 'username');
+
+      // Add attributes dynamically
+      passwordInput.classList.add('mt-1', 'px-4', 'py-2', 'block', 'w-full', 'border', 'border-gray-300', 'rounded-md', 'bg-gray-100', 'focus:outline-none', 'focus:ring-2', 'focus:ring-purple-600', 'focus:border-transparent');
+      passwordInput.setAttribute('autofocus', '');
+      passwordInput.setAttribute('autocomplete', 'password');
+    });
+</script>
+
 {% endblock content %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+
+        <!-- Service Banner with Gradient -->
+        <div class="bg-gradient-to-r from-blue-400 to-purple-500 text-white py-6 px-8 rounded-lg shadow-lg mb-8">
+            <h1 class="text-4xl font-bold mb-4">{{ service.title }}</h1>
+            <p class="text-white">
+                {{ service.description }}
+            </p>
+        </div>
+
+        <!-- Features Section -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Features</h2>
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+                {% for feature in service.features %}
+                <li class="flex items-center space-x-2">
+                    <i class="fas fa-check text-blue-500"></i>
+                    <span>{{ feature }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Larger Detailed Real Description -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Description</h2>
+            <p class="text-gray-700">
+                {{ service.detailed_description }}
+            </p>
+        </section>
+
+        <!-- Pricing Section -->
+        <section>
+            <h2 class="text-2xl font-semibold mb-4">Pricing</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Pricing Option 1 -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-blue-500 mb-4">Basic</h3>
+                    <p class="text-gray-700 mb-4">{{ service.price_basic_description }}</p>
+                    <p class="text-gray-700 font-bold mb-4">${{ service.price_basic }}</p>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg focus:outline-none">Choose Plan</button>
+                </div>
+                <!-- Pricing Option 2 -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-blue-500 mb-4">Essential</h3>
+                    <p class="text-gray-700 mb-4">{{ service.price_standard_description }}</p>
+                    <p class="text-gray-700 font-bold mb-4">${{ service.price_standard }}</p>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg focus:outline-none">Choose Plan</button>
+                </div>
+                <!-- Pricing Option 3 -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-blue-500 mb-4">Premium</h3>
+                    <p class="text-gray-700 mb-4">{{ service.price_premium_description }}</p>
+                    <p class="text-gray-700 font-bold mb-4">${{ service.price_premium }}</p>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg focus:outline-none">Choose Plan</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock content %}
+

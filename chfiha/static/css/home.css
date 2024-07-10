@@ -1,0 +1,44 @@
+.centered-section {
+            background-color: #4CAF50; /* Example background color */
+            height: 200px; /* Example height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .centered-section h1 {
+            font-size: 2.5rem; /* Example large font size */
+            color: white; /* Example text color */
+            text-align: center;
+        }
+        .search-section {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar .form-select {
+            margin-right: 10px;
+        }
+
+        .card-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .service-card {
+            width: 300px;
+        }
+
+        .service-card img {
+            height: 200px;
+            object-fit: cover;
+        }
