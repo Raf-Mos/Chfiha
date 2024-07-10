@@ -1,4 +1,4 @@
-from .forms import CustomUserCreationForm, ContactForm
+from .forms import CustomUserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 
