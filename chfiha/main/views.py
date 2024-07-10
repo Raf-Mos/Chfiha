@@ -7,8 +7,6 @@ from django.shortcuts import render
 class AboutPageView(TemplateView):
     template_name = 'about.html'
 
-class ContactPageView(TemplateView):
-    template_name = 'contact.html'
 
 class HomePageView(ListView):
     model = Service
