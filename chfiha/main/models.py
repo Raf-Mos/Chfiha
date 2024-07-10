@@ -5,7 +5,7 @@ from django.urls import reverse
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='static/profile_pictures/', default='avatar.jpg')
+    profile_picture = models.ImageField(upload_to='static/profile_pictures/', default='static/profile_pictures/9334228.jpg')
     is_client = models.BooleanField(default=True)
     is_freelancer = models.BooleanField(default=False)
 
