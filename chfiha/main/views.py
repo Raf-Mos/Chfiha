@@ -54,6 +54,17 @@ class ServicesView(ListView):
     template_name = 'services.html'
     context_object_name = 'services'
 
+    """
+        overriding the get_queryset method to filter the results based on the search query.
+    """
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(title__icontains=query)  # Modify based on your filtering logic
+        return queryset
+    
+
 class OrdersMessagesView(TemplateView):
     template_name = 'ordersmessages.html'
 
