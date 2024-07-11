@@ -19,10 +19,6 @@ class Service(models.Model):
     detailed_description = models.TextField(default="")
     price_basic = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     price_basic_description = models.CharField(max_length=200, default="Basic plan description")
-    price_standard = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
-    price_standard_description = models.CharField(max_length=200, default="Standard plan description")
-    price_premium = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
-    price_premium_description = models.CharField(max_length=200, default="Premium plan description")
 
     def get_absolute_url(self):
         return reverse('service_detail', args=[str(self.id)])
