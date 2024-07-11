@@ -5,7 +5,7 @@ from django.urls import reverse
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='static/profile_pictures/', default='avatar.jpg')
+    profile_picture = models.ImageField(upload_to='static/profile_pictures/', default='static/profile_pictures/9334228.jpg')
     is_client = models.BooleanField(default=True)
     is_freelancer = models.BooleanField(default=False)
 
@@ -19,10 +19,6 @@ class Service(models.Model):
     detailed_description = models.TextField(default="")
     price_basic = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     price_basic_description = models.CharField(max_length=200, default="Basic plan description")
-    price_standard = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
-    price_standard_description = models.CharField(max_length=200, default="Standard plan description")
-    price_premium = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
-    price_premium_description = models.CharField(max_length=200, default="Premium plan description")
 
     def get_absolute_url(self):
         return reverse('service_detail', args=[str(self.id)])
