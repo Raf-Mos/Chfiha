@@ -1,12 +1,38 @@
-from django.views.generic import ListView, DetailView
-from django.views.generic import TemplateView
+# main/views.py
+from django.views.generic import ListView, DetailView, TemplateView, FormView
 from .models import Project, Service
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from django.core.mail import send_mail
+from django.conf import settings
+from .forms import ContactForm
 
 class AboutPageView(TemplateView):
     template_name = 'about.html'
 
+class SuccessPageView(TemplateView):
+    template_name = 'success.html'
+
+class ContactPageView(FormView):
+    template_name = 'contact.html'
+    form_class = ContactForm
+    success_url = '/success/'  # URL to redirect to after successful form submission
+
+    def form_valid(self, form):
+        # Get form data
+        name = form.cleaned_data['name']
+        email = form.cleaned_data['email']
+        message = form.cleaned_data['message']
+        msg = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+        
+        # Send email
+        send_mail(
+            f'Message from {name}',  # Subject
+            msg,  # Message
+            settings.DEFAULT_TO_EMAIL,  # From email
+            [settings.DEFAULT_TO_EMAIL],  # To email
+            fail_silently=False,
+        )
+        return super().form_valid(form)
 
 class HomePageView(ListView):
     model = Service
@@ -29,7 +55,7 @@ class ServicesView(ListView):
     context_object_name = 'services'
 
 class OrdersMessagesView(TemplateView):
-    template_name = 'ordersmessages.html'  # Your template file
+    template_name = 'ordersmessages.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -41,4 +67,3 @@ class OrdersMessagesView(TemplateView):
             orders = []
         context['orders'] = orders
         return context
-

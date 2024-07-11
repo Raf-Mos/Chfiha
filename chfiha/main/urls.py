@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AboutPageView, HomePageView, MessagesPageView, ServiceDetailView, ServicesView, OrdersMessagesView
+from .views import AboutPageView, ContactPageView, HomePageView, MessagesPageView, ServiceDetailView, ServicesView, OrdersMessagesView, SuccessPageView
 
 
 
@@ -10,4 +10,6 @@ urlpatterns = [
     path('service/<int:pk>/', ServiceDetailView.as_view(), name='service'),
     path('services/', ServicesView.as_view(), name='services'),
     path('ordersmessages/', OrdersMessagesView.as_view(), name='orders_messages'),
+    path('success/', SuccessPageView.as_view(), name='success'),
+    path('contact/', ContactPageView.as_view(), name='contact'),
 ]
