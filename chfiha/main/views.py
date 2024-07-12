@@ -65,16 +65,17 @@ class ServicesView(ListView):
         return queryset
     
 
-class OrdersMessagesView(TemplateView):
+class OrdersMessagesView(ListView):
+    model = Project
     template_name = 'ordersmessages.html'
+    context_object_name = 'orders'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.user.profile.is_client:
-            orders = Project.objects.filter(client=self.request.user)
-        elif self.request.user.profile.is_freelancer:
-            orders = Project.objects.filter(freelancer=self.request.user)
+    def get_queryset(self):
+        user_profile = self.request.user.profile
+        if user_profile.is_client:
+            orders = Project.objects.filter(client=user_profile)
+        elif user_profile.is_freelancer:
+            orders = Project.objects.filter(freelancer=user_profile)
         else:
-            orders = []
-        context['orders'] = orders
-        return context
+            orders = Project.objects.none()
+        return orders
