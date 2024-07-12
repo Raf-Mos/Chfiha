@@ -12,6 +12,12 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.email
 
+
+class Categorie(models.Model):
+    title = models.CharField(max_length=200, null=False)
+    descriptio = models.TextField()
+
+
 class Service(models.Model):
     title = models.CharField(max_length=200, default="Service Title")
     description = models.TextField()
