@@ -15,10 +15,19 @@ class Profile(models.Model):
 
 class Categorie(models.Model):
     title = models.CharField(max_length=200, null=False)
-    descriptio = models.TextField()
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+    @staticmethod
+    def get_default_category():
+        default_category, created = Categorie.objects.get_or_create(title='Default', description='Default category')
+        return default_category.id
 
 
 class Service(models.Model):
+    categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE, null=False, default=Categorie.get_default_category)
     title = models.CharField(max_length=200, default="Service Title")
     description = models.TextField()
     features = models.JSONField(default=list, help_text="List of features")
@@ -68,4 +77,3 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review by {self.client.username} for {self.project.service.name}"
-
