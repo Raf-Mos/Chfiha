@@ -57,22 +57,29 @@ class Project(models.Model):
     end_date = models.DateField()
 
     step1_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
-    step1_file = models.FileField(upload_to='project_files/step1', blank=True, null=True)
+    step1_file = models.FileField(upload_to='static/project_files/step1', blank=True, null=True)
     step2_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
-    step2_file = models.FileField(upload_to='project_files/step2', blank=True, null=True)
+    step2_file = models.FileField(upload_to='static/project_files/step2', blank=True, null=True)
     step3_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
-    step3_file = models.FileField(upload_to='project_files/step3', blank=True, null=True)
+    step3_file = models.FileField(upload_to='static/project_files/step3', blank=True, null=True)
     step4_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
-    step4_file = models.FileField(upload_to='project_files/step4', blank=True, null=True)
+    step4_file = models.FileField(upload_to='static/project_files/step4', blank=True, null=True)
     step5_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
-    step5_file = models.FileField(upload_to='project_files/step5', blank=True, null=True)
+    step5_file = models.FileField(upload_to='static/project_files/step5', blank=True, null=True)
 
+class OrderMessage(models.Model):
+    sender = models.ForeignKey(Profile, related_name='message_sender', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(Profile, related_name='message_receiver', on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    text = models.TextField(blank=True, null=True)
+    file = models.FileField(upload_to='static/order_message_files/', blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
 class Review(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     client = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     rating = models.IntegerField()
-    comment = models.TextField()
+    comment = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

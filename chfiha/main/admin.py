@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Service, Profile, Project
+from .models import Service, Profile, Project, OrderMessage
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'bio', 'profile_picture', 'is_client', 'is_freelancer')
@@ -34,3 +34,4 @@ class ProjectAdmin(admin.ModelAdmin):
 
 admin.site.register(Project, ProjectAdmin)
 
+admin.site.register(OrderMessage)
