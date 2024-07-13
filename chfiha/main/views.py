@@ -1,10 +1,10 @@
 # main/views.py
-from django.views.generic import ListView, DetailView, TemplateView, FormView
-from .models import Project, Service
+from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView
+from .models import Project, Service, OrderMessage
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.conf import settings
-from .forms import ContactForm
+from .forms import ContactForm, OrderMessageForm
 
 class AboutPageView(TemplateView):
     template_name = 'about.html'
@@ -68,14 +68,43 @@ class ServicesView(ListView):
 class OrdersMessagesView(ListView):
     model = Project
     template_name = 'ordersmessages.html'
-    context_object_name = 'orders'
+    context_object_name = 'projects'
 
     def get_queryset(self):
         user_profile = self.request.user.profile
         if user_profile.is_client:
-            orders = Project.objects.filter(client=user_profile)
+            projects = Project.objects.filter(client=user_profile)
         elif user_profile.is_freelancer:
-            orders = Project.objects.filter(freelancer=user_profile)
+            projects = Project.objects.filter(freelancer=user_profile)
         else:
-            orders = Project.objects.none()
-        return orders
+            projects = Project.objects.none()
+        return projects
+
+class OrderDetailView(DetailView):
+    model = Project
+    template_name = 'order_detail.html'  # Replace with your template name
+    context_object_name = 'project'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        project = self.get_object()  # Fetch the Project instance
+
+        # Fetch related OrderMessages for this Project
+        order_messages = OrderMessage.objects.filter(project=project)
+
+        # Add order_messages to the context
+        context['order_messages'] = order_messages
+        context['message_form'] = OrderMessageForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        project = self.get_object()
+        form = OrderMessageForm(request.POST, request.FILES)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user.profile  # Adjust according to your user model
+            message.receiver = project.client if request.user.profile == project.freelancer else project.freelancer
+            message.project = project
+            message.save()
+            return redirect('order_detail', pk=project.pk)  # Redirect to the same page
+        return self.get(request, *args, **kwargs)
