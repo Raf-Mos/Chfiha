@@ -12,7 +12,22 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.email
 
+
+class Categorie(models.Model):
+    title = models.CharField(max_length=200, null=False)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+    @staticmethod
+    def get_default_category():
+        default_category, created = Categorie.objects.get_or_create(title='Default', description='Default category')
+        return default_category.id
+
+
 class Service(models.Model):
+    categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE, null=False, default=Categorie.get_default_category)
     title = models.CharField(max_length=200, default="Service Title")
     description = models.TextField()
     features = models.JSONField(default=list, help_text="List of features")
@@ -34,8 +49,8 @@ class Project(models.Model):
     ]
 
     order_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
-    client = models.ForeignKey(CustomUser, related_name='client_projects', on_delete=models.CASCADE, null=True, blank=True)
-    freelancer = models.ForeignKey(CustomUser, related_name='freelancer_projects', on_delete=models.CASCADE, null=True, blank=True)
+    client = models.ForeignKey(Profile, related_name='client_projects', on_delete=models.CASCADE, null=True, blank=True)
+    freelancer = models.ForeignKey(Profile, related_name='freelancer_projects', on_delete=models.CASCADE, null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     description = models.TextField()
     start_date = models.DateField()
@@ -52,8 +67,6 @@ class Project(models.Model):
     step5_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     step5_file = models.FileField(upload_to='project_files/step5', blank=True, null=True)
 
-    def __str__(self):
-        return f"{self.service.title} for {self.client.username}"
 
 class Review(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -64,4 +77,3 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review by {self.client.username} for {self.project.service.name}"
-

@@ -1,6 +1,6 @@
 # main/views.py
 from django.views.generic import ListView, DetailView, TemplateView, FormView
-from .models import Project, Service
+from .models import Project, Service, Categorie
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.conf import settings
@@ -8,6 +8,9 @@ from .forms import ContactForm
 
 class AboutPageView(TemplateView):
     template_name = 'about.html'
+
+class BookingPageView(TemplateView):
+    template_name = 'booking.html'
 
 class SuccessPageView(TemplateView):
     template_name = 'success.html'
@@ -60,21 +63,32 @@ class ServicesView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         query = self.request.GET.get('q')
+        category_id = self.request.GET.get('category')
+
         if query:
             queryset = queryset.filter(title__icontains=query)  # Modify based on your filtering logic
-        return queryset
-    
+        if category_id:
+            queryset = queryset.filter(categorie_id=category_id)
 
-class OrdersMessagesView(TemplateView):
-    template_name = 'ordersmessages.html'
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.user.profile.is_client:
-            orders = Project.objects.filter(client=self.request.user)
-        elif self.request.user.profile.is_freelancer:
-            orders = Project.objects.filter(freelancer=self.request.user)
-        else:
-            orders = []
-        context['orders'] = orders
+        context['categories'] = Categorie.objects.all()
         return context
+    
+
+class OrdersMessagesView(ListView):
+    model = Project
+    template_name = 'ordersmessages.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        user_profile = self.request.user.profile
+        if user_profile.is_client:
+            orders = Project.objects.filter(client=user_profile)
+        elif user_profile.is_freelancer:
+            orders = Project.objects.filter(freelancer=user_profile)
+        else:
+            orders = Project.objects.none()
+        return orders
