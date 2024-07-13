@@ -13,6 +13,8 @@
             </p>
         </div>
 
+        {% if request.user.profile.user_type == 'client' %}
+
         <!-- Features Section -->
         <section class="mb-8">
             <h2 class="text-2xl font-semibold mb-4">Features</h2>
@@ -34,6 +36,7 @@
             </p>
         </section>
 
+
         <!-- Pricing Section -->
         <section>
             <h2 class="text-2xl font-semibold mb-4">Pricing</h2>
@@ -47,6 +50,56 @@
                 </div>
             </div>
         </section>
+        {% else %}
+
+          <section class="mb-8 bg-white shadow-md rounded-lg px-8 p-6 pb-8">
+            <h2 class="text-2xl font-semibold mb-4">Edit Service</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                
+                <!-- Display form fields -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+                    <div>
+                        <label for="categorie" class="block text-gray-700 font-bold mb-2">Category</label>
+                        {{ form.categorie }}
+                    </div>
+                    <div>
+                        <label for="title" class="block text-gray-700 font-bold mb-2">Title</label>
+                        {{ form.title }}
+                    </div>
+                    <div class="col-span-2">
+                        <label for="description" class="block text-gray-700 font-bold mb-2">Description</label>
+                        {{ form.description }}
+                    </div>
+                    <div class="col-span-2">
+                    <label for="features" class="block text-gray-700 font-bold mb-2">Features</label>
+                        {{ form.features }}
+                    </div>
+                    <div class="col-span-2">
+                    <label for="detailed_description" class="block text-gray-700 font-bold mb-2">Detailed Description</label>
+                        {{ form.detailed_description }}
+                    </div>
+                    <div>
+                    <label for="price_basic" class="block text-gray-700 font-bold mb-2">Price Basic</label>
+                        {{ form.price_basic }}
+                    </div>
+                    <div>
+                    <label for="price_basic_description" class="block text-gray-700 font-bold mb-2">Price Basic Description</label>
+                        {{ form.price_basic_description }}
+                    </div>
+                    <div>
+                    <label for="freelancer" class="block text-gray-700 font-bold mb-2">Freelancer</label>
+                        {{ form.freelancer }}
+                    </div>
+                </div>
+                
+                <!-- Submit button -->
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg focus:outline-none mt-4">Save Changes</button>
+            </form>
+        </section>
+
+        {% endif %}
     </main>
 
 {% endblock content %}

@@ -4,7 +4,7 @@ from .models import Project, Service, Categorie, OrderMessage
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.conf import settings
-from .forms import ContactForm, OrderMessageForm
+from .forms import ContactForm, OrderMessageForm, ServiceForm
 
 class AboutPageView(TemplateView):
     template_name = 'about.html'
@@ -51,6 +51,23 @@ class ServiceDetailView(DetailView):
     model = Service
     template_name = 'service.html'
     context_object_name = 'service'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.method == 'POST':
+            context['form'] = ServiceForm(self.request.POST, instance=self.object)
+        else:
+            context['form'] = ServiceForm(instance=self.object)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = ServiceForm(request.POST, instance=self.object)
+        if form.is_valid():
+            form.save()
+            return redirect('service', pk=self.object.pk)  # Adjust to your service detail URL name
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
 
 class ServicesView(ListView):
     model = Service

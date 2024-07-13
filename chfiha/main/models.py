@@ -38,6 +38,7 @@ class Service(models.Model):
     detailed_description = models.TextField(default="")
     price_basic = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     price_basic_description = models.CharField(max_length=200, default="Basic plan description")
+    freelancer = models.ForeignKey(Profile, on_delete=models.CASCADE, limit_choices_to={'user_type': 'freelancer'})
 
     def get_absolute_url(self):
         return reverse('service_detail', args=[str(self.id)])
@@ -52,7 +53,6 @@ class Project(models.Model):
         ('P', 'Pending'),
     ]
 
-    order_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
     client = models.ForeignKey(Profile, related_name='client_projects', on_delete=models.CASCADE, null=True, blank=True)
     freelancer = models.ForeignKey(Profile, related_name='freelancer_projects', on_delete=models.CASCADE, null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)

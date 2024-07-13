@@ -1,6 +1,6 @@
 # main/forms.py
 from django import forms
-from .models import OrderMessage
+from .models import OrderMessage, Service, Categorie, Profile
 
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
@@ -38,3 +38,73 @@ class OrderMessageForm(forms.ModelForm):
     class Meta:
         model = OrderMessage
         fields = ['text', 'file']
+
+
+class ServiceForm(forms.ModelForm):
+
+    categorie = forms.ModelChoiceField(
+        queryset= Categorie.objects.all(),
+        required=True,
+        widget=forms.Select(attrs={
+            'class': 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+            'id': 'categorie',
+        })
+    )
+
+    title = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+            'id': 'title',
+        })
+    )
+
+    description = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+            'id': 'description',
+            'rows': 5,
+        })
+    )
+
+    features = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+            'id': 'features',
+            'rows': 5,
+        })
+    )
+
+    detailed_description = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+            'id': 'detailed_description',
+            'rows': 8,
+        })
+    )
+
+    price_basic = forms.DecimalField(
+        widget=forms.TextInput(attrs={
+            'class': 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+            'id': 'price_basic',
+        })
+    )
+
+    price_basic_description = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+            'id': 'price_basic_description',
+        })
+    )
+
+    freelancer = forms.ModelChoiceField(
+        queryset=Profile.objects.filter(user_type='freelancer'),  # Adjust queryset as needed
+        required=True,
+        widget=forms.Select(attrs={
+            'class': 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+            'id': 'freelancer',
+        })
+    )
+
+    class Meta:
+        model = Service
+        fields = ['categorie', 'title', 'description', 'features', 'detailed_description', 'price_basic', 'price_basic_description', 'freelancer']
