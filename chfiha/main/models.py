@@ -3,11 +3,15 @@ from accounts.models import CustomUser
 from django.urls import reverse
 
 class Profile(models.Model):
+    USER_TYPE_CHOICES = [
+        ('client', 'Client'),
+        ('freelancer', 'Freelancer'),
+    ]
+
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
     profile_picture = models.ImageField(upload_to='static/profile_pictures/', default='static/profile_pictures/9334228.jpg')
-    is_client = models.BooleanField(default=True)
-    is_freelancer = models.BooleanField(default=False)
+    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='client')
 
     def __str__(self):
         return self.user.email

@@ -85,9 +85,9 @@ class OrdersMessagesView(ListView):
 
     def get_queryset(self):
         user_profile = self.request.user.profile
-        if user_profile.is_client:
+        if user_profile.user_type == 'client':
             projects = Project.objects.filter(client=user_profile)
-        elif user_profile.is_freelancer:
+        elif user_profile.user_type == 'freelancer':
             projects = Project.objects.filter(freelancer=user_profile)
         else:
             projects = Project.objects.none()
