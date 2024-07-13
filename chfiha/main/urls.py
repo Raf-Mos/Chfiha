@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AboutPageView, ContactPageView, HomePageView, MessagesPageView, ServiceDetailView, ServicesView, OrdersMessagesView, SuccessPageView
+from .views import AboutPageView, ContactPageView, HomePageView, MessagesPageView, ServiceDetailView, ServicesView, OrdersMessagesView, SuccessPageView, BookingPageView
 
 
 
@@ -12,4 +12,5 @@ urlpatterns = [
     path('ordersmessages/', OrdersMessagesView.as_view(), name='orders_messages'),
     path('success/', SuccessPageView.as_view(), name='success'),
     path('contact/', ContactPageView.as_view(), name='contact'),
+    path('booking/', BookingPageView.as_view(), name='booking'),
 ]

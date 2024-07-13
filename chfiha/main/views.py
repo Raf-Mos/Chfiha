@@ -9,6 +9,9 @@ from .forms import ContactForm
 class AboutPageView(TemplateView):
     template_name = 'about.html'
 
+class BookingPageView(TemplateView):
+    template_name = 'booking.html'
+
 class SuccessPageView(TemplateView):
     template_name = 'success.html'
 
