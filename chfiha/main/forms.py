@@ -105,6 +105,13 @@ class ServiceForm(forms.ModelForm):
         })
     )
 
+    duration_days = forms.DecimalField(
+        widget=forms.TextInput(attrs={
+            'class': 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+            'id': 'duration_days',
+        })
+    )
+
     class Meta:
         model = Service
-        fields = ['categorie', 'title', 'description', 'features', 'detailed_description', 'price_basic', 'price_basic_description', 'freelancer']
+        fields = ['categorie', 'title', 'description', 'features', 'detailed_description', 'price_basic', 'price_basic_description', 'freelancer', 'duration_days']
