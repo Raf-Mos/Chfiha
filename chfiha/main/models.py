@@ -53,8 +53,8 @@ class Project(models.Model):
         ('P', 'Pending'),
     ]
 
-    client = models.ForeignKey(Profile, related_name='client_projects', on_delete=models.CASCADE, null=True, blank=True)
-    freelancer = models.ForeignKey(Profile, related_name='freelancer_projects', on_delete=models.CASCADE, null=True, blank=True)
+    client = models.ForeignKey(Profile, related_name='client_projects', on_delete=models.CASCADE, null=True, blank=True, limit_choices_to={'user_type': 'client'})
+    freelancer = models.ForeignKey(Profile, related_name='freelancer_projects', on_delete=models.CASCADE, limit_choices_to={'user_type': 'freelancer'}, null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
@@ -69,6 +69,11 @@ class Project(models.Model):
     step4_file = models.FileField(upload_to='static/project_files/step4', blank=True, null=True)
     step5_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     step5_file = models.FileField(upload_to='static/project_files/step5', blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.id and not self.freelancer:
+            self.freelancer = self.service.freelancer
+        super().save(*args, **kwargs)
 
 class OrderMessage(models.Model):
     sender = models.ForeignKey(Profile, related_name='message_sender', on_delete=models.CASCADE)
