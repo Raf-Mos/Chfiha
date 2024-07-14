@@ -56,7 +56,6 @@ class Project(models.Model):
     client = models.ForeignKey(Profile, related_name='client_projects', on_delete=models.CASCADE, null=True, blank=True)
     freelancer = models.ForeignKey(Profile, related_name='freelancer_projects', on_delete=models.CASCADE, null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
-    description = models.TextField()
     start_date = models.DateField()
     end_date = models.DateField()
 
