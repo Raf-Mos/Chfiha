@@ -36,9 +36,11 @@ class Service(models.Model):
     description = models.TextField()
     features = models.JSONField(default=list, help_text="List of features")
     detailed_description = models.TextField(default="")
-    price_basic = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
-    price_basic_description = models.CharField(max_length=200, default="Basic plan description")
     freelancer = models.ForeignKey(Profile, on_delete=models.CASCADE, limit_choices_to={'user_type': 'freelancer'})
+    price_starter = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
+    price_starter_description = models.CharField(max_length=200, default="Starter plan description")
+    price_essential = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
+    price_essential_description = models.CharField(max_length=200, default="Essential plan description")
 
     def get_absolute_url(self):
         return reverse('service_detail', args=[str(self.id)])
