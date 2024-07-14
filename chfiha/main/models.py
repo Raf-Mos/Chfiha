@@ -1,6 +1,8 @@
 from django.db import models
 from accounts.models import CustomUser
 from django.urls import reverse
+from django.utils import timezone
+from datetime import timedelta
 
 class Profile(models.Model):
     USER_TYPE_CHOICES = [
@@ -39,6 +41,7 @@ class Service(models.Model):
     freelancer = models.ForeignKey(Profile, on_delete=models.CASCADE, limit_choices_to={'user_type': 'freelancer'})
     price_essential = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     price_essential_description = models.CharField(max_length=200, default="Essential plan description")
+    duration_days = models.IntegerField(default=1, help_text="Duration of the service in days")
 
     def get_absolute_url(self):
         return reverse('service_detail', args=[str(self.id)])
@@ -56,7 +59,7 @@ class Project(models.Model):
     client = models.ForeignKey(Profile, related_name='client_projects', on_delete=models.CASCADE, null=True, blank=True, limit_choices_to={'user_type': 'client'})
     freelancer = models.ForeignKey(Profile, related_name='freelancer_projects', on_delete=models.CASCADE, limit_choices_to={'user_type': 'freelancer'}, null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
-    start_date = models.DateField()
+    start_date = models.DateField(default=timezone.now)
     end_date = models.DateField()
 
     step1_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
@@ -73,6 +76,7 @@ class Project(models.Model):
     def save(self, *args, **kwargs):
         if not self.id and not self.freelancer:
             self.freelancer = self.service.freelancer
+        self.end_date = self.start_date + timedelta(days=self.service.duration_days)
         super().save(*args, **kwargs)
 
 class OrderMessage(models.Model):
