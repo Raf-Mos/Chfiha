@@ -138,7 +138,7 @@
             <div class="bg-gradient-to-r from-blue-400 to-purple-500 text-white py-4 px-6 rounded-lg shadow-lg">
                 <h3 class="text-2xl font-bold mb-2">{{ project.service.title }}</h3>
                 <p class="text-white mb-4">{{ project.service.description }}</p>
-                <a href="{% url 'service' pk=project.pk %}" class="bg-white text-blue-500 font-bold py-2 px-4 rounded-lg shadow-lg inline-block mb-2">View Service</a>
+                <a href="{% url 'service' pk=project.service.pk %}" class="bg-white text-blue-500 font-bold py-2 px-4 rounded-lg shadow-lg inline-block mb-2">View Service</a>
             </div>
         </div>
     </main>
