@@ -12,17 +12,19 @@
             <div class="mb-4">
                 <label for="id_email" class="block text-sm font-semibold text-gray-700">Email Address</label>
                 {{ form.username }}
-                {{form.username.error}}
+                {{ form.username.errors }}
             </div>
             <div class="mb-6">
                 <label for="id_password" class="block text-sm font-semibold text-gray-700">Password</label>
                 {{ form.password }}
-                {{ form.password.error }}
+                {{ form.password.errors }}
             </div>
             <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50">Login</button>
         </form>
         <div class="mt-6 text-center">
             <a href="{% url 'password_reset' %}" class="text-sm text-purple-600 hover:text-purple-700">Forgot Password?</a>
+            <span class="text-gray-600 mx-2"> | </span>
+            <a href="{% url 'signup' %}" class="text-sm text-purple-600 hover:text-purple-700">Create an Account</a>
         </div>
     </div>
 </main>
@@ -41,7 +43,7 @@
       // Add attributes dynamically
       passwordInput.classList.add('mt-1', 'px-4', 'py-2', 'block', 'w-full', 'border', 'border-gray-300', 'rounded-md', 'bg-gray-100', 'focus:outline-none', 'focus:ring-2', 'focus:ring-purple-600', 'focus:border-transparent');
       passwordInput.setAttribute('autofocus', '');
-      passwordInput.setAttribute('autocomplete', 'password');
+      passwordInput.setAttribute('autocomplete', 'current-password');
     });
 </script>
 

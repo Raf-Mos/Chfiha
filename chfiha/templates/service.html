@@ -13,44 +13,7 @@
             </p>
         </div>
 
-        {% if request.user.profile.user_type == 'client' %}
-
-        <!-- Features Section -->
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">Features</h2>
-            <ul class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
-                {% for feature in service.features %}
-                <li class="flex items-center space-x-2">
-                    <i class="fas fa-check text-blue-500"></i>
-                    <span>{{ feature }}</span>
-                </li>
-                {% endfor %}
-            </ul>
-        </section>
-
-        <!-- Larger Detailed Real Description -->
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">Description</h2>
-            <p class="text-gray-700">
-                {{ service.detailed_description }}
-            </p>
-        </section>
-
-
-        <!-- Pricing Section -->
-        <section>
-            <h2 class="text-2xl font-semibold mb-4">Pricing</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Pricing Option 2 -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 class="text-xl font-semibold text-blue-500 mb-4">Essential</h3>
-                    <p class="text-gray-700 mb-4">{{ service.price_essential_description }}</p>
-                    <p class="text-gray-700 font-bold mb-4">${{ service.price_essential }}</p>
-                    <a href="{% url 'pay_service' service.pk %}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg focus:outline-none">Pay Now</a>
-                </div>
-            </div>
-        </section>
-        {% else %}
+        {% if request.user.profile.user_type == 'freelancer' %}
 
           <section class="mb-8 bg-white shadow-md rounded-lg px-8 p-6 pb-8">
             <h2 class="text-2xl font-semibold mb-4">Edit Service</h2>
@@ -102,7 +65,44 @@
                 <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg focus:outline-none mt-4">Save Changes</button>
             </form>
         </section>
+        
+        {% else %}
 
+        <!-- Features Section -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Features</h2>
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+                {% for feature in service.features %}
+                <li class="flex items-center space-x-2">
+                    <i class="fas fa-check text-blue-500"></i>
+                    <span>{{ feature }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Larger Detailed Real Description -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Description</h2>
+            <p class="text-gray-700">
+                {{ service.detailed_description }}
+            </p>
+        </section>
+
+
+        <!-- Pricing Section -->
+        <section>
+            <h2 class="text-2xl font-semibold mb-4">Pricing</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Pricing Option 2 -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-blue-500 mb-4">Essential</h3>
+                    <p class="text-gray-700 mb-4">{{ service.price_essential_description }}</p>
+                    <p class="text-gray-700 font-bold mb-4">${{ service.price_essential }}</p>
+                    <a href="{% url 'pay_service' service.pk %}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg focus:outline-none">Pay Now</a>
+                </div>
+            </div>
+        </section>
         {% endif %}
     </main>
 

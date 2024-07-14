@@ -6,6 +6,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .forms import ContactForm, OrderMessageForm, ServiceForm
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+import paypalrestsdk
 
 class AboutPageView(TemplateView):
     template_name = 'about.html'
@@ -140,22 +142,97 @@ class OrderDetailView(DetailView):
             return redirect('order_detail', pk=project.pk)  # Redirect to the same page
         return self.get(request, *args, **kwargs)
 
+@login_required
 def pay_service(request, pk):
     try:
         service = Service.objects.get(pk=pk)
     except Service.DoesNotExist:
-        return redirect(reverse('payment_confirmation', kwargs={'pk': project.pk}))  # Redirect to home page or appropriate URL
+        return redirect(reverse('home'))
 
-    project = Project.objects.create(
-        client=request.user.profile,  # Assuming client is the current logged-in user
-        service=service,
-    )
+    paypalrestsdk.configure({
+        "mode": "sandbox",  # or "live"
+        "client_id": settings.PAYPAL_CLIENT_ID,
+        "client_secret": settings.PAYPAL_CLIENT_SECRET,
+    })
 
-    return redirect(reverse('payment_confirmation', kwargs={'pk': project.pk}))
+    payment = paypalrestsdk.Payment({
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"  # This line allows credit card payments
+        },
+        "redirect_urls": {
+            "return_url": request.build_absolute_uri(reverse('payment_confirmation')),
+            "cancel_url": request.build_absolute_uri(reverse('payment_cancelled'))
+        },
+        "transactions": [{
+            "item_list": {
+                "items": [{
+                    "name": service.title,
+                    "sku": str(service.pk),
+                    "price": str(service.price_essential),
+                    "currency": "USD",
+                    "quantity": 1
+                }]
+            },
+            "amount": {
+                "total": str(service.price_essential),
+                "currency": "USD"
+            },
+            "description": f"Payment for service {service.title}"
+        }]
+    })
 
-def payment_confirmation(request, pk):
+    if payment.create():
+        for link in payment.links:
+            if link.rel == "approval_url":
+                approval_url = str(link.href)
+                break
+        return redirect(approval_url)
+    else:
+        print(payment.error)
+        return redirect(reverse('home'))
+
+@login_required
+def payment_confirmation(request):
+    payment_id = request.GET.get('paymentId')
+    payer_id = request.GET.get('PayerID')
+
+    paypalrestsdk.configure({
+        "mode": "sandbox",  # or "live"
+        "client_id": settings.PAYPAL_CLIENT_ID,
+        "client_secret": settings.PAYPAL_CLIENT_SECRET,
+    })
+
+    payment = paypalrestsdk.Payment.find(payment_id)
+
+    if payment.execute({"payer_id": payer_id}):
+        transaction = payment.transactions[0]
+        service_id = transaction.item_list.items[0].sku
+        service = get_object_or_404(Service, pk=service_id)
+
+        project = Project.objects.create(
+            client=request.user.profile,
+            service=service,
+            price=service.price_essential,
+            transaction_id=payment.id,
+            payment_status=payment.state,
+            payer_email=payment.payer.payer_info.email,
+            amount_paid=float(payment.transactions[0].amount.total),
+        )
+
+        return redirect(reverse('payment_confirmation_detail', kwargs={'pk': project.pk}))
+    else:
+        print(payment.error)
+        return redirect(reverse('home'))
+
+@login_required
+def payment_confirmation_detail(request, pk):
     try:
-        project = Project.objects.get(pk=pk)
+        project = Project.objects.get(pk=pk, client=request.user.profile)
     except Project.DoesNotExist:
         return redirect(reverse('home'))
+
     return render(request, 'payment_confirmation.html', {'project': project})
+
+def payment_cancelled(request):
+    return render(request, 'payment_cancelled.html')

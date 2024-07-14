@@ -63,6 +63,11 @@ class Project(models.Model):
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField()
 
+    transaction_id = models.CharField(max_length=255, blank=True, null=True)
+    payment_status = models.CharField(max_length=50, blank=True, null=True)
+    payer_email = models.EmailField(blank=True, null=True)
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
     step1_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     step1_file = models.FileField(upload_to='static/project_files/step1', blank=True, null=True)
     step2_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')

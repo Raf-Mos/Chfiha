@@ -19,7 +19,7 @@ class ProjectAdmin(admin.ModelAdmin):
     list_filter = ('start_date', 'end_date')
     fieldsets = (
         (None, {
-            'fields': ('client', 'freelancer', 'service', 'start_date', 'end_date', 'price')
+            'fields': ('client', 'freelancer', 'service', 'start_date', 'end_date', 'price', 'transaction_id', 'payment_status', 'payer_email')
         }),
         ('Delivery Steps', {
             'fields': (

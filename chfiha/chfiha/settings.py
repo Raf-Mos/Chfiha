@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'compressor',
     'widget_tweaks',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -162,3 +163,8 @@ EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_TO_EMAIL = os.getenv('DEFAULT_TO_EMAIL')
+
+PAYPAL_CLIENT_ID = 'ATyvuFPbq5WCh82jOJF5tp-KPtWjvEts_zKwr4HnlKhSRUQXak1QbLuWX0kUVXbv5bfKWWpthhQtlv_f'
+PAYPAL_CLIENT_SECRET = 'EMIwojF9b39l1M_hC8WsvVeCOCERR7U6RETi56cNOv07HG7OfZm7jDymFHEdM1KZ6GXKdNcsNFOgMKko'
+PAYPAL_MODE = 'sandbox'  # Use 'live' for production
+
