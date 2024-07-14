@@ -15,5 +15,5 @@ urlpatterns = [
     path('booking/', BookingPageView.as_view(), name='booking'),
 
     path('pay_service/<int:pk>/', pay_service, name='pay_service'),
-    path('payment_confirmation/', payment_confirmation, name='payment_confirmation'),
+    path('payment_confirmation/<int:pk>/', payment_confirmation, name='payment_confirmation'),
 ]

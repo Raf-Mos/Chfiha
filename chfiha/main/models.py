@@ -60,8 +60,8 @@ class Project(models.Model):
     freelancer = models.ForeignKey(Profile, related_name='freelancer_projects', on_delete=models.CASCADE, limit_choices_to={'user_type': 'freelancer'}, null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
-    start_date = models.DateField(default=timezone.now)
-    end_date = models.DateField()
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField()
 
     step1_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     step1_file = models.FileField(upload_to='static/project_files/step1', blank=True, null=True)

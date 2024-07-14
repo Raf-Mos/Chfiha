@@ -1,7 +1,7 @@
 # main/views.py
 from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView
 from .models import Project, Service, Categorie, OrderMessage
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
 from django.conf import settings
 from .forms import ContactForm, OrderMessageForm, ServiceForm
@@ -144,9 +144,18 @@ def pay_service(request, pk):
     try:
         service = Service.objects.get(pk=pk)
     except Service.DoesNotExist:
-        return redirect(reverse('home'))  # Redirect to home page or appropriate URL
+        return redirect(reverse('payment_confirmation', kwargs={'pk': project.pk}))  # Redirect to home page or appropriate URL
 
-    return redirect(reverse('payment_confirmation'))
+    project = Project.objects.create(
+        client=request.user.profile,  # Assuming client is the current logged-in user
+        service=service,
+    )
 
-def payment_confirmation(request):
-    return render(request, 'payment_confirmation.html')
+    return redirect(reverse('payment_confirmation', kwargs={'pk': project.pk}))
+
+def payment_confirmation(request, pk):
+    try:
+        project = Project.objects.get(pk=pk)
+    except Project.DoesNotExist:
+        return redirect(reverse('home'))
+    return render(request, 'payment_confirmation.html', {'project': project})
