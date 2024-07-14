@@ -10,7 +10,7 @@ admin.site.register(Profile, ProfileAdmin)
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price_starter', 'price_essential')
+    list_display = ('title', 'price_essential')
     search_fields = ('title', 'description')
 
 class ProjectAdmin(admin.ModelAdmin):
