@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AboutPageView, ContactPageView, HomePageView, MessagesPageView, ServiceDetailView, ServicesView, OrdersMessagesView, SuccessPageView, BookingPageView, OrderDetailView
+from .views import AboutPageView, ContactPageView, HomePageView, MessagesPageView, ServiceDetailView, ServicesView, OrdersMessagesView, SuccessPageView, BookingPageView, OrderDetailView, pay_service, payment_confirmation
 
 
 urlpatterns = [
@@ -13,4 +13,7 @@ urlpatterns = [
     path('success/', SuccessPageView.as_view(), name='success'),
     path('contact/', ContactPageView.as_view(), name='contact'),
     path('booking/', BookingPageView.as_view(), name='booking'),
+
+    path('pay_service/<int:pk>/', pay_service, name='pay_service'),
+    path('payment_confirmation/', payment_confirmation, name='payment_confirmation'),
 ]

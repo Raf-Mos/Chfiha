@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.conf import settings
 from .forms import ContactForm, OrderMessageForm, ServiceForm
+from django.urls import reverse
 
 class AboutPageView(TemplateView):
     template_name = 'about.html'
@@ -138,3 +139,14 @@ class OrderDetailView(DetailView):
             message.save()
             return redirect('order_detail', pk=project.pk)  # Redirect to the same page
         return self.get(request, *args, **kwargs)
+
+def pay_service(request, pk):
+    try:
+        service = Service.objects.get(pk=pk)
+    except Service.DoesNotExist:
+        return redirect(reverse('home'))  # Redirect to home page or appropriate URL
+
+    return redirect(reverse('payment_confirmation'))
+
+def payment_confirmation(request):
+    return render(request, 'payment_confirmation.html')
