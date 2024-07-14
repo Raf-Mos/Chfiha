@@ -59,6 +59,7 @@ class Project(models.Model):
     client = models.ForeignKey(Profile, related_name='client_projects', on_delete=models.CASCADE, null=True, blank=True, limit_choices_to={'user_type': 'client'})
     freelancer = models.ForeignKey(Profile, related_name='freelancer_projects', on_delete=models.CASCADE, limit_choices_to={'user_type': 'freelancer'}, null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     start_date = models.DateField(default=timezone.now)
     end_date = models.DateField()
 
@@ -76,7 +77,9 @@ class Project(models.Model):
     def save(self, *args, **kwargs):
         if not self.id and not self.freelancer:
             self.freelancer = self.service.freelancer
+
         self.end_date = self.start_date + timedelta(days=self.service.duration_days)
+        self.price = self.service.price_essential
         super().save(*args, **kwargs)
 
 class OrderMessage(models.Model):
