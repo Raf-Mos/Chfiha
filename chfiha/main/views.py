@@ -6,6 +6,11 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .forms import ContactForm
 
+from django.http import JsonResponse
+from django.views import View
+from django.template.loader import render_to_string
+
+
 class AboutPageView(TemplateView):
     template_name = 'about.html'
 
@@ -57,26 +62,47 @@ class ServicesView(ListView):
     template_name = 'services.html'
     context_object_name = 'services'
 
-    """
-        overriding the get_queryset method to filter the results based on the search query.
-    """
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        query = self.request.GET.get('q')
-        category_id = self.request.GET.get('category')
+    # """
+    #     overriding the get_queryset method to filter the results based on the search query.
+    # """
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     query = self.request.GET.get('q')
+    #     category_id = self.request.GET.get('category')
 
-        if query:
-            queryset = queryset.filter(title__icontains=query)  # Modify based on your filtering logic
-        if category_id:
-            queryset = queryset.filter(categorie_id=category_id)
+    #     if query:
+    #         queryset = queryset.filter(title__icontains=query)  # Modify based on your filtering logic
+    #     if category_id:
+    #         queryset = queryset.filter(categorie_id=category_id)
 
-        return queryset
+    #     return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Categorie.objects.all()
         return context
     
+
+class FilterServicesView(View):
+    def get(self, request):
+        category_id = request.GET.get('category')
+        query = request.GET.get('q')
+
+        services = Service.objects.all()
+        if category_id:
+            services = services.filter(categorie_id=category_id)
+        if query:
+            services = services.filter(title__icontains=query)
+
+        services_html = render_to_string('partials/service_list.html', {'services': services})
+        return JsonResponse({'services_html': services_html})
+
+
+def suggestions(request):
+    query = request.GET.get('q', '')
+    suggestions = Service.objects.filter(title__icontains=query).values_list('title', flat=True)[:5]
+    return JsonResponse({'suggestions': list(suggestions)})
+
 
 class OrdersMessagesView(ListView):
     model = Project

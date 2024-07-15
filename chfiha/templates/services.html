@@ -6,24 +6,29 @@
 {% block content %}
 
 <!-- search bar -->
-<form action="{% url 'services' %}" method="get" class="max-w-lg mx-auto mt-8">
+<form id="search-form" action="{% url 'services' %}" method="get" class="max-w-lg mx-auto mt-8">
     <div class="flex">
-        <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your Email
-        </label>
-        <button id="dropdown-button" data-dropdown-toggle="dropdown" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" type="button">All categories <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-  </svg></button>
+        <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+        <button id="dropdown-button" data-dropdown-toggle="dropdown" data-category-id="" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" type="button">
+            All categories 
+            <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+            </svg>
+        </button>
         <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
-            {% for category in categories %}
-            <li>
-                <a href="?category={{ category.id }}&q={{ request.GET.q }}" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ category.title }}</a>
-            </li>
-            {% endfor %}
+                {% for category in categories %}
+                <li>
+                    <a onclick="filterServices(event, '{{ category.id }}', '{{ category.title }}')" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ category.title }}</a>
+                </li>
+                {% endfor %}
             </ul>
         </div>
         <div class="relative w-full">
-            <input name="q" type="search" id="search-dropdown" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Search Services, Categories, or Features..." />
+            <input name="q" type="search" id="search-dropdown" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Search Services, Categories, or Features..." />
+            <div id="suggestions-container" class="absolute z-30 w-full bg-white border border-gray-300 rounded-lg hidden">
+                <!-- Suggestions will be populated here -->
+            </div>
             <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-purple-500 rounded-e-lg border border-purple-300 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
@@ -34,29 +39,111 @@
     </div>
 </form>
 
-
 <!-- Services Section -->
-        <section class="bg-gradient-to-b from-gray-100 to-white py-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    {% for service in services %}
-                    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                        <div class="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 h-28 flex items-center justify-center rounded-t-lg">
-                            <h3 class="text-white text-xl font-semibold">{{ service.title }}</h3>
-                        </div>
-                        <div class="p-6 bg-white">
-                            <p class="text-gray-600">{{ service.description }}</p>
-                            <div class="mt-4">
-                                <p class="text-gray-700 font-bold text-lg">${{ service.price_basic }}</p>
-                            </div>
-                            <div class="mt-4">
-                                <a href="{% url 'service' pk=service.pk %}" class="block w-full text-center text-white bg-indigo-500 hover:bg-indigo-600 py-2 rounded-lg text-sm font-semibold">Details</a>
-                            </div>
-                        </div>
+<section class="bg-gradient-to-b from-gray-100 to-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div id="services-container" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {% for service in services %}
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 h-28 flex items-center justify-center rounded-t-lg">
+                    <h3 class="text-white text-xl font-semibold">{{ service.title }}</h3>
+                </div>
+                <div class="p-6 bg-white">
+                    <p class="text-gray-600">{{ service.description }}</p>
+                    <div class="mt-4">
+                        <p class="text-gray-700 font-bold text-lg">${{ service.price_basic }}</p>
                     </div>
-                    {% endfor %}
+                    <div class="mt-4">
+                        <a href="{% url 'service' pk=service.pk %}" class="block w-full text-center text-white bg-indigo-500 hover:bg-indigo-600 py-2 rounded-lg text-sm font-semibold">Details</a>
+                    </div>
                 </div>
             </div>
-        </section>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 
 {% endblock content %}
+
+{% block extra_js %}
+
+<script>
+    function filterServices(event, categoryId, categoryName) {
+        // Update the button text to the selected category
+        document.getElementById('dropdown-button').textContent = categoryName;
+        document.getElementById('dropdown-button').setAttribute('data-category-id', categoryId); // Store category ID
+
+        // Get the search query
+        const searchQuery = document.getElementById('search-dropdown').value;
+        const url = new URL('{% url "filter_services" %}', window.location.origin);
+
+        // Create parameters object
+        const params = {};
+        if (categoryId) params.category = categoryId;  // Only add if categoryId is valid
+        if (searchQuery) params.q = searchQuery;  // Only add if there is a search query
+
+        // Append parameters to URL
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('services-container').innerHTML = data.services_html;
+            });
+    }
+
+    // Attach event listener for search form
+    document.getElementById('search-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Get the current category ID from the dropdown button
+        const currentCategoryId = document.getElementById('dropdown-button').getAttribute('data-category-id');
+        const currentCategoryName = document.getElementById('dropdown-button').textContent;
+
+        // Call filterServices with the current category ID
+        filterServices(event, currentCategoryId, currentCategoryName);  
+    });
+
+    document.getElementById('search-dropdown').addEventListener('input', function() {
+        const query = this.value;
+
+        // Only fetch suggestions if the input is not empty
+        if (query) {
+            fetch(`/suggestions?q=${query}`) // Adjust the endpoint as needed
+                .then(response => response.json())
+                .then(data => {
+                    const suggestionsContainer = document.getElementById('suggestions-container');
+                    suggestionsContainer.innerHTML = ''; // Clear previous suggestions
+
+                    data.suggestions.forEach(suggestion => {
+                        const suggestionItem = document.createElement('div');
+                        suggestionItem.textContent = suggestion; // Adjust based on your data structure
+                        suggestionItem.classList.add('p-2', 'hover:bg-gray-100', 'cursor-pointer');
+                        
+                        // Add click event to select suggestion
+                        suggestionItem.addEventListener('click', function() {
+                            document.getElementById('search-dropdown').value = suggestion;
+                            suggestionsContainer.innerHTML = ''; // Clear suggestions after selection
+                        });
+                        
+                        suggestionsContainer.appendChild(suggestionItem);
+                    });
+
+                    suggestionsContainer.classList.remove('hidden'); // Show suggestions
+                });
+        } else {
+            document.getElementById('suggestions-container').innerHTML = '';
+            document.getElementById('suggestions-container').classList.add('hidden'); // Hide suggestions if input is empty
+        }
+    });
+
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', function(event) {
+        const suggestionsContainer = document.getElementById('suggestions-container');
+        if (!suggestionsContainer.contains(event.target) && event.target.id !== 'search-dropdown') {
+            suggestionsContainer.classList.add('hidden');
+        }
+    });
+</script>
+
+{% endblock extra_js %}
