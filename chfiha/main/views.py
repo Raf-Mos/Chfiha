@@ -1,10 +1,13 @@
 # main/views.py
-from django.views.generic import ListView, DetailView, TemplateView, FormView
-from .models import Project, Service, Categorie
-from django.shortcuts import render, redirect
+from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView
+from .models import Project, Service, Categorie, OrderMessage
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
 from django.conf import settings
-from .forms import ContactForm
+from .forms import ContactForm, OrderMessageForm, ServiceForm
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+import paypalrestsdk
 
 from django.http import JsonResponse
 from django.views import View
@@ -57,6 +60,23 @@ class ServiceDetailView(DetailView):
     template_name = 'service.html'
     context_object_name = 'service'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.method == 'POST':
+            context['form'] = ServiceForm(self.request.POST, instance=self.object)
+        else:
+            context['form'] = ServiceForm(instance=self.object)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = ServiceForm(request.POST, instance=self.object)
+        if form.is_valid():
+            form.save()
+            return redirect('service', pk=self.object.pk)  # Adjust to your service detail URL name
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
 class ServicesView(ListView):
     model = Service
     template_name = 'services.html'
@@ -107,14 +127,138 @@ def suggestions(request):
 class OrdersMessagesView(ListView):
     model = Project
     template_name = 'ordersmessages.html'
-    context_object_name = 'orders'
+    context_object_name = 'projects'
 
     def get_queryset(self):
         user_profile = self.request.user.profile
-        if user_profile.is_client:
-            orders = Project.objects.filter(client=user_profile)
-        elif user_profile.is_freelancer:
-            orders = Project.objects.filter(freelancer=user_profile)
+        if user_profile.user_type == 'client':
+            projects = Project.objects.filter(client=user_profile)
+        elif user_profile.user_type == 'freelancer':
+            projects = Project.objects.filter(freelancer=user_profile)
         else:
-            orders = Project.objects.none()
-        return orders
+            projects = Project.objects.none()
+        return projects
+
+class OrderDetailView(DetailView):
+    model = Project
+    template_name = 'order_detail.html'  # Replace with your template name
+    context_object_name = 'project'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        project = self.get_object()  # Fetch the Project instance
+
+        # Fetch related OrderMessages for this Project
+        order_messages = OrderMessage.objects.filter(project=project)
+
+        # Add order_messages to the context
+        context['order_messages'] = order_messages
+        context['message_form'] = OrderMessageForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        project = self.get_object()
+        form = OrderMessageForm(request.POST, request.FILES)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user.profile  # Adjust according to your user model
+            message.receiver = project.client if request.user.profile == project.freelancer else project.freelancer
+            message.project = project
+            message.save()
+            return redirect('order_detail', pk=project.pk)  # Redirect to the same page
+        return self.get(request, *args, **kwargs)
+
+@login_required
+def pay_service(request, pk):
+    try:
+        service = Service.objects.get(pk=pk)
+    except Service.DoesNotExist:
+        return redirect(reverse('home'))
+
+    paypalrestsdk.configure({
+        "mode": "sandbox",  # or "live"
+        "client_id": settings.PAYPAL_CLIENT_ID,
+        "client_secret": settings.PAYPAL_CLIENT_SECRET,
+    })
+
+    payment = paypalrestsdk.Payment({
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"  # This line allows credit card payments
+        },
+        "redirect_urls": {
+            "return_url": request.build_absolute_uri(reverse('payment_confirmation')),
+            "cancel_url": request.build_absolute_uri(reverse('payment_cancelled'))
+        },
+        "transactions": [{
+            "item_list": {
+                "items": [{
+                    "name": service.title,
+                    "sku": str(service.pk),
+                    "price": str(service.price_essential),
+                    "currency": "USD",
+                    "quantity": 1
+                }]
+            },
+            "amount": {
+                "total": str(service.price_essential),
+                "currency": "USD"
+            },
+            "description": f"Payment for service {service.title}"
+        }]
+    })
+
+    if payment.create():
+        for link in payment.links:
+            if link.rel == "approval_url":
+                approval_url = str(link.href)
+                break
+        return redirect(approval_url)
+    else:
+        print(payment.error)
+        return redirect(reverse('home'))
+
+@login_required
+def payment_confirmation(request):
+    payment_id = request.GET.get('paymentId')
+    payer_id = request.GET.get('PayerID')
+
+    paypalrestsdk.configure({
+        "mode": "sandbox",  # or "live"
+        "client_id": settings.PAYPAL_CLIENT_ID,
+        "client_secret": settings.PAYPAL_CLIENT_SECRET,
+    })
+
+    payment = paypalrestsdk.Payment.find(payment_id)
+
+    if payment.execute({"payer_id": payer_id}):
+        transaction = payment.transactions[0]
+        service_id = transaction.item_list.items[0].sku
+        service = get_object_or_404(Service, pk=service_id)
+
+        project = Project.objects.create(
+            client=request.user.profile,
+            service=service,
+            price=service.price_essential,
+            transaction_id=payment.id,
+            payment_status=payment.state,
+            payer_email=payment.payer.payer_info.email,
+            amount_paid=float(payment.transactions[0].amount.total),
+        )
+
+        return redirect(reverse('payment_confirmation_detail', kwargs={'pk': project.pk}))
+    else:
+        print(payment.error)
+        return redirect(reverse('home'))
+
+@login_required
+def payment_confirmation_detail(request, pk):
+    try:
+        project = Project.objects.get(pk=pk, client=request.user.profile)
+    except Project.DoesNotExist:
+        return redirect(reverse('home'))
+
+    return render(request, 'payment_confirmation.html', {'project': project})
+
+def payment_cancelled(request):
+    return render(request, 'payment_cancelled.html')

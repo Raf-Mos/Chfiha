@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main>
+    <section class="max-w-3xl mx-auto mt-10">
+        <h1 class="text-3xl font-bold mb-6">Pay for {{ service.title }}</h1>
+        
+        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+            {% csrf_token %}
+            {{ form.render }}
+            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online.">
+        </form>
+    </section>
+</main>
+{% endblock %}
+
