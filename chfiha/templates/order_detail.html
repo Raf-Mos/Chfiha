@@ -122,6 +122,22 @@
         // Initial scroll to bottom when the page loads
         scrollToBottom();
 
+        // Function to fetch new messages
+        function fetchNewMessages() {
+            $.ajax({
+                type: 'GET',
+                url: '{% url "order_detail" project.pk %}', // The URL to fetch new messages
+                success: function(data) {
+                    $('#message-list').html($(data).find('#message-list').html());
+                    scrollToBottom();
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                }
+            });
+        }
+        setInterval(fetchNewMessages, 2000);
+
         // Handle form submission with AJAX
         $('#messageForm').on('submit', function(event) {
             event.preventDefault(); // Prevent the form from submitting the traditional way
@@ -142,7 +158,7 @@
                     $('#messageForm')[0].reset();
 
                     // Scroll to bottom after adding new message
-                    scrollToBottom();
+                    fetchNewMessages();
                 },
                 error: function(response) {
                     console.log('Error:', response);
