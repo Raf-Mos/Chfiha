@@ -23,8 +23,8 @@ class OrderMessageForm(forms.ModelForm):
     text = forms.CharField(
         required=False,
         widget=forms.TextInput(attrs={
-            'class': 'flex-grow p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mr-4',
-            'placeholder': 'Type your message...'
+            'class': 'flex-grow p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mr-4 w-full',
+            'placeholder': 'Type your message...',
         })
     )
     file = forms.FileField(
