@@ -156,6 +156,9 @@ STATICFILES_FINDERS = (
 
 # E-mail setting
 
+# store all sent emails in a folder called sent_emails in our project directory.
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
