@@ -1,1 +1,56 @@
-about
+{% extends 'base.html' %}
+
+{% block content %}
+    <main class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-6">
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Welcome to Chfiha!</h2>
+            <p class="text-lg leading-relaxed">Chfiha is your one-stop platform for connecting clients with top-notch tech service providers. Our mission is to simplify the process of finding, comparing, and hiring tech experts for various projects. Whether you need web development, SEO optimization, or other tech services, Chfiha is here to bridge the gap between clients and professionals.</p>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Our Vision</h2>
+            <p class="text-lg leading-relaxed">We envision a world where accessing tech services is seamless and efficient. We aim to empower clients by providing them with a user-friendly platform to discover and hire the best tech experts tailored to their needs.</p>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Our Mission</h2>
+            <p class="text-lg leading-relaxed">Our mission is to create a reliable and comprehensive marketplace where clients can easily connect with skilled freelancers and service providers. We strive to ensure that every project, big or small, gets the expertise it deserves.</p>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Key Features</h2>
+            <ul class="list-disc list-inside text-lg leading-relaxed">
+                <li><strong>User Roles:</strong> Clients: Find and hire the right tech experts for your projects. Freelancers: Showcase your skills and connect with clients who need your expertise.</li>
+                <li><strong>Service Listings:</strong> Detailed descriptions, features, and pricing tiers (basic, standard, premium) for each service, allowing clients to choose the best option for their needs.</li>
+                <li><strong>Order Management:</strong> Track the progress of your projects with a transparent and efficient order management system.</li>
+                <li><strong>Messaging System:</strong> Secure communication between clients and freelancers, with the ability to exchange files and collaborate effectively.</li>
+                <li><strong>Responsive Design:</strong> Access Chfiha from any device with our mobile-friendly design, ensuring a smooth experience no matter where you are.</li>
+            </ul>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Our Journey</h2>
+            <p class="text-lg leading-relaxed">Chfiha was born out of a desire to make tech services more accessible. Our journey started with extensive research and planning, identifying a need for a user-friendly platform in the tech services market. Through dedication and hard work, we built Chfiha using Django for its robustness and scalability, and Tailwind CSS for a clean, responsive interface.</p>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Meet the Team</h2>
+            <ul class="list-disc list-inside text-lg leading-relaxed">
+                <li><strong>[Your Name]:</strong> Visionary behind Chfiha, leading the project with passion and dedication.</li>
+                <li><strong>Kamal Miftah:</strong> Backend specialist, ensuring our platform is robust and scalable.</li>
+                <li><strong>Mostapha Rafiki:</strong> UI/UX Designer, crafting an intuitive and visually appealing user experience.</li>
+            </ul>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Our Commitment</h2>
+            <p class="text-lg leading-relaxed">At Chfiha, we are committed to providing a reliable and efficient platform for all your tech service needs. We continuously strive to improve our services and welcome feedback from our users to help us grow and serve you better.</p>
+            <p class="text-lg leading-relaxed">Thank you for choosing Chfiha. We look forward to helping you achieve your tech project goals.</p>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-semibold mb-4">Contact Us</h2>
+            <p class="text-lg leading-relaxed">Got questions or suggestions? Feel free to reach out to us via our <a href="#" class="text-blue-600 underline">contact page</a>. Follow us on Twitter and LinkedIn for the latest updates and news.</p>
+        </section>
+    </main>
+{% endblock content %}
