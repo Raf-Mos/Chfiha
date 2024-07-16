@@ -124,12 +124,23 @@
 
         // Function to fetch new messages
         function fetchNewMessages() {
+            // Store the initial number of messages before the AJAX request
+            var initialMessageCount = $('#message-list').children().length;
+
             $.ajax({
                 type: 'GET',
                 url: '{% url "order_detail" project.pk %}', // The URL to fetch new messages
                 success: function(data) {
-                    $('#message-list').html($(data).find('#message-list').html());
-                    scrollToBottom();
+                    var newMessageList = $(data).find('#message-list').html();
+                    $('#message-list').html(newMessageList);
+
+                    // Get the new number of messages after updating the message list
+                    var newMessageCount = $('#message-list').children().length;
+
+                    // Scroll to bottom if a new message is added
+                    if (newMessageCount > initialMessageCount) {
+                        scrollToBottom();
+                    }
                 },
                 error: function(data) {
                     console.log('Error:', data);
@@ -159,6 +170,7 @@
 
                     // Scroll to bottom after adding new message
                     fetchNewMessages();
+                    scrollToBottom();
                 },
                 error: function(response) {
                     console.log('Error:', response);
