@@ -1,25 +1,25 @@
 from django.contrib import admin
-from .models import Service, Profile, Project
+from .models import Service, Profile, Project, OrderMessage, Categorie
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'bio', 'profile_picture', 'is_client', 'is_freelancer')
-    list_filter = ('is_client', 'is_freelancer')
+    list_display = ('user', 'bio', 'profile_picture', 'user_type')
+    list_filter = ('user_type',)
     search_fields = ('user__email',)
 
 admin.site.register(Profile, ProfileAdmin)
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price_basic')
+    list_display = ('title', 'price_essential', 'duration_days')
     search_fields = ('title', 'description')
 
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('order_number', 'client', 'freelancer', 'service', 'start_date', 'end_date')
-    search_fields = ('order_number', 'client__email', 'freelancer__email', 'service__title')
+    list_display = ('client', 'freelancer', 'service', 'start_date', 'end_date')
+    search_fields = ('client__email', 'freelancer__email', 'service__title')
     list_filter = ('start_date', 'end_date')
     fieldsets = (
         (None, {
-            'fields': ('order_number', 'client', 'freelancer', 'service', 'description', 'start_date', 'end_date')
+            'fields': ('client', 'freelancer', 'service', 'start_date', 'end_date', 'price', 'transaction_id', 'payment_status', 'payer_email')
         }),
         ('Delivery Steps', {
             'fields': (
@@ -34,3 +34,6 @@ class ProjectAdmin(admin.ModelAdmin):
 
 admin.site.register(Project, ProjectAdmin)
 
+admin.site.register(OrderMessage)
+
+admin.site.register(Categorie)

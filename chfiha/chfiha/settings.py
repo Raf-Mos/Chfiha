@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'compressor',
     'widget_tweaks',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -155,6 +156,9 @@ STATICFILES_FINDERS = (
 
 # E-mail setting
 
+# store all sent emails in a folder called sent_emails in our project directory.
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
@@ -162,3 +166,7 @@ EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_TO_EMAIL = os.getenv('DEFAULT_TO_EMAIL')
+
+PAYPAL_MODE = os.getenv('PAYPAL_MODE')
+PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
+PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')

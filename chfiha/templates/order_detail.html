@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Main Content -->
+<main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <!-- Order Header -->
+    <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+        <h1 class="text-2xl font-bold mb-4">Order #{{ project.id }}</h1>
+        <p class="text-gray-700 mb-4">Service: {{ project.service.title }}</p>
+        <p class="text-gray-700">Order Price: ${{ project.price }}</p>
+        <p class="text-gray-700">Deadline: <span class="text-red-500">{{ project.end_date }}</span></p>
+
+        <!-- Calculate days left -->
+        {% with days_left=project.end_date|timeuntil %}
+        <p class="text-gray-700">Time Left: {{ days_left }}</p>
+        {% endwith %}
+    </div>
+
+    <!-- Delivery Steps -->
+    <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+        <h2 class="text-xl font-semibold mb-4">Delivery Steps</h2>
+        <ul class="space-y-4">
+            <li class="flex items-center space-x-4">
+                <i class="fas fa-check-circle {% if project.step1_status == 'D' %}text-green-500{% else %}text-gray-500{% endif %}"></i>
+                <span>Step 1: Initial Design - {{ project.get_step1_status_display }}</span>
+                {% if project.step1_file %}
+                    <a href="{{ project.step1_file.url }}" download class="ml-4 text-blue-600 hover:underline">Download File</a>
+                {% endif %}
+            </li>
+            <li class="flex items-center space-x-4">
+                <i class="fas fa-check-circle {% if project.step2_status == 'D' %}text-green-500{% else %}text-gray-500{% endif %}"></i>
+                <span>Step 2: Content Integration - {{ project.get_step2_status_display }}</span>
+                {% if project.step2_file %}
+                    <a href="{{ project.step2_file.url }}" download class="ml-4 text-blue-600 hover:underline">Download File</a>
+                {% endif %}
+            </li>
+            <li class="flex items-center space-x-4">
+                <i class="fas fa-check-circle {% if project.step3_status == 'D' %}text-green-500{% else %}text-gray-500{% endif %}"></i>
+                <span>Step 3: SEO Optimization - {{ project.get_step3_status_display }}</span>
+                {% if project.step3_file %}
+                    <a href="{{ project.step3_file.url }}" download class="ml-4 text-blue-600 hover:underline">Download File</a>
+                {% endif %}
+            </li>
+            <li class="flex items-center space-x-4">
+                <i class="fas fa-check-circle {% if project.step4_status == 'D' %}text-green-500{% else %}text-gray-500{% endif %}"></i>
+                <span>Step 4: E-commerce Setup - {{ project.get_step4_status_display }}</span>
+                {% if project.step4_file %}
+                    <a href="{{ project.step4_file.url }}" download class="ml-4 text-blue-600 hover:underline">Download File</a>
+                {% endif %}
+            </li>
+            <li class="flex items-center space-x-4">
+                <i class="fas fa-check-circle {% if project.step5_status == 'D' %}text-green-500{% else %}text-gray-500{% endif %}"></i>
+                <span>Step 5: Final Review - {{ project.get_step5_status_display }}</span>
+                {% if project.step5_file %}
+                    <a href="{{ project.step5_file.url }}" download class="ml-4 text-blue-600 hover:underline">Download File</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+
+        <!-- Messaging Section -->
+        <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+            <h2 class="text-xl font-semibold mb-4">To: 
+              {% if project.client.user == request.user %}
+                {{ project.freelancer.user.first_name }} {{ project.freelancer.user.last_name }}
+              {% else %}
+                {{ project.client.user.first_name }} {{ project.client.user.last_name }}
+              {% endif %}
+            </h2>
+            <div class="flex flex-col space-y-4 max-h-96 overflow-y-auto" id="message-list">
+                {% for message in order_messages %}
+                    {% include 'partials/message_single.html' %}
+                {% empty %}
+                <div class="flex justify-start">
+                    <div class="p-4 rounded-lg max-w-md">
+                        <p class="text-gray-900">No Messages</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Message input area -->
+            <form id="messageForm" method="post" enctype="multipart/form-data" class="flex items-center mt-4">
+                {% csrf_token %}
+                {{ message_form.text }}
+                <div class="relative">
+                    {{ message_form.file }}
+            <label for="file-upload" class="cursor-pointer text-gray-600 hover:text-gray-800"> <!-- Added pl-2 for padding-left -->
+                <i class="fas fa-paperclip fa-lg"></i>
+            </label>
+                </div>
+                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg shadow-lg ml-4">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Related Service Section -->
+        <div class="bg-white p-6 rounded-lg shadow-lg mb-4">
+            <div class="bg-gradient-to-r from-blue-400 to-purple-500 text-white py-4 px-6 rounded-lg shadow-lg">
+                <h3 class="text-2xl font-bold mb-2">{{ project.service.title }}</h3>
+                <p class="text-white mb-4">{{ project.service.description }}</p>
+                <a href="{% url 'service' pk=project.service.pk %}" class="bg-white text-blue-500 font-bold py-2 px-4 rounded-lg shadow-lg inline-block mb-2">View Service</a>
+            </div>
+        </div>
+    </main>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        // Function to scroll to the bottom of the message list
+        function scrollToBottom() {
+            var messageList = $('#message-list');
+            messageList.scrollTop(messageList[0].scrollHeight);
+        }
+
+        // Initial scroll to bottom when the page loads
+        scrollToBottom();
+
+        // Function to fetch new messages
+        function fetchNewMessages() {
+            // Store the initial number of messages before the AJAX request
+            var initialMessageCount = $('#message-list').children().length;
+
+            $.ajax({
+                type: 'GET',
+                url: '{% url "order_detail" project.pk %}', // The URL to fetch new messages
+                success: function(data) {
+                    var newMessageList = $(data).find('#message-list').html();
+                    $('#message-list').html(newMessageList);
+
+                    // Get the new number of messages after updating the message list
+                    var newMessageCount = $('#message-list').children().length;
+
+                    // Scroll to bottom if a new message is added
+                    if (newMessageCount > initialMessageCount) {
+                        scrollToBottom();
+                    }
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                }
+            });
+        }
+        setInterval(fetchNewMessages, 2000);
+
+        // Handle form submission with AJAX
+        $('#messageForm').on('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+
+            var formData = new FormData(this); // Create a FormData object with the form data
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "order_detail" project.pk %}', // The URL of your form submission view
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // Append the new message to the message list
+                    $('#message-list').append(response.new_message_html);
+
+                    // Clear the form
+                    $('#messageForm')[0].reset();
+
+                    // Scroll to bottom after adding new message
+                    fetchNewMessages();
+                    scrollToBottom();
+                },
+                error: function(response) {
+                    console.log('Error:', response);
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock extra_js %}
