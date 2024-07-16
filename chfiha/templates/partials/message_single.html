@@ -1,0 +1,32 @@
+{% if message.sender == request.user.profile %}
+    {% if message.text %}
+        <div class="flex justify-end">
+            <div class="bg-blue-500 py-2 px-4 rounded-lg max-w-md text-white">
+                <p>{{ message.text }}</p>
+            </div>
+        </div>
+    {% endif %}
+    {% if message.file %}
+        <div class="flex justify-end">
+            <div class="bg-gray-100 py-2 px-4 rounded-lg max-w-md">
+                <a href="{{ message.file.url }}" class="text-blue-500 hover:underline break-words">{{ message.file.name }}</a>
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+    {% if message.text %}
+        <div class="flex justify-start">
+            <div class="bg-gray-200 py-2 px-4 rounded-lg max-w-md">
+                <p class="text-gray-900">{{ message.text }}</p>
+            </div>
+        </div>
+    {% endif %}
+    {% if message.file %}
+        <div class="flex justify-start">
+            <div class="bg-gray-100 py-2 px-4 rounded-lg max-w-md">
+                <a href="{{ message.file.url }}" class="text-blue-500 hover:underline break-words">{{ message.file.name }}</a>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+

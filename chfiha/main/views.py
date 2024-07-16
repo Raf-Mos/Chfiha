@@ -139,19 +139,18 @@ class OrdersMessagesView(ListView):
             projects = Project.objects.none()
         return projects
 
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+
 class OrderDetailView(DetailView):
     model = Project
-    template_name = 'order_detail.html'  # Replace with your template name
+    template_name = 'order_detail.html'
     context_object_name = 'project'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        project = self.get_object()  # Fetch the Project instance
-
-        # Fetch related OrderMessages for this Project
+        project = self.get_object()
         order_messages = OrderMessage.objects.filter(project=project)
-
-        # Add order_messages to the context
         context['order_messages'] = order_messages
         context['message_form'] = OrderMessageForm()
         return context
@@ -161,12 +160,22 @@ class OrderDetailView(DetailView):
         form = OrderMessageForm(request.POST, request.FILES)
         if form.is_valid():
             message = form.save(commit=False)
-            message.sender = request.user.profile  # Adjust according to your user model
+            message.sender = request.user.profile
             message.receiver = project.client if request.user.profile == project.freelancer else project.freelancer
             message.project = project
             message.save()
-            return redirect('order_detail', pk=project.pk)  # Redirect to the same page
+
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                new_message_html = render_to_string('partials/message_single.html', {'message': message, 'request': request})
+                return JsonResponse({'new_message_html': new_message_html})
+
+            return redirect('order_detail', pk=project.pk)
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'error': 'Invalid form'}, status=400)
+        
         return self.get(request, *args, **kwargs)
+
 
 @login_required
 def pay_service(request, pk):
