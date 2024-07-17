@@ -83,14 +83,14 @@ class ServiceForm(forms.ModelForm):
         })
     )
 
-    price_basic = forms.DecimalField(
+    price_essential = forms.DecimalField(
         widget=forms.TextInput(attrs={
             'class': 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
             'id': 'price_basic',
         })
     )
 
-    price_basic_description = forms.CharField(
+    pprice_essential_description = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
             'id': 'price_basic_description',
@@ -115,4 +115,4 @@ class ServiceForm(forms.ModelForm):
 
     class Meta:
         model = Service
-        fields = ['categorie', 'title', 'description', 'features', 'detailed_description', 'price_basic', 'price_basic_description', 'freelancer', 'duration_days']
+        fields = ['categorie', 'title', 'description', 'features', 'detailed_description', 'price_essential', 'price_essential_description', 'freelancer', 'duration_days']
