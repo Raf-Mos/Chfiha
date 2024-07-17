@@ -25,6 +25,7 @@ class OrderMessageForm(forms.ModelForm):
         widget=forms.TextInput(attrs={
             'class': 'flex-grow p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mr-4 w-full',
             'placeholder': 'Type your message...',
+            'autocomplete': 'off',
         })
     )
     file = forms.FileField(
