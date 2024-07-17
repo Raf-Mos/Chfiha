@@ -1,0 +1,165 @@
+[
+{
+    "model": "main.service",
+    "pk": 2,
+    "fields": {
+        "categorie": 6,
+        "title": "Small Business Online Shop",
+        "description": "Launch your small business into the digital marketplace with a customized online shop.",
+        "features": [
+            "User-friendly interface",
+            "Product catalog setup",
+            "Payment gateway integration",
+            "Basic SEO setup",
+            "Responsive design",
+            "Customer support integration",
+            "Social media links"
+        ],
+        "detailed_description": "We specialize in creating affordable online shops tailored to small businesses. Our solutions focus on usability and functionality, empowering you to reach a broader audience and increase sales online.",
+        "freelancer": 1,
+        "price_essential": "299.00",
+        "price_essential_description": "Get Your Online Shop Today!",
+        "duration_days": 7,
+        "photo": "static/service/shop.webp"
+    }
+},
+{
+    "model": "main.service",
+    "pk": 3,
+    "fields": {
+        "categorie": 7,
+        "title": "Full Stack Web Application",
+        "description": "Develop scalable web applications with our full stack development services.",
+        "features": [
+            "Custom application architecture",
+            "Backend development (Python/Django, Node.js, etc.)",
+            "Frontend development (HTML/CSS/JS)",
+            "Database design and integration",
+            "API development and integration",
+            "Deployment and testing",
+            "User authentication and authorization",
+            "Scalability and performance optimization",
+            "Maintenance and support"
+        ],
+        "detailed_description": "Transform your ideas into powerful web applications with our comprehensive full stack development services. From concept to deployment, we ensure robust solutions that meet your business goals and engage your users effectively.",
+        "freelancer": 1,
+        "price_essential": "399.00",
+        "price_essential_description": "Start Developing Your Web App Today!",
+        "duration_days": 1,
+        "photo": "static/service/Full_Stack_Web_Application_Develop.webp"
+    }
+},
+{
+    "model": "main.service",
+    "pk": 4,
+    "fields": {
+        "categorie": 8,
+        "title": "Domain-Based Email Setup",
+        "description": "Set up professional email accounts tailored to your domain name.",
+        "features": [
+            "Custom email addresses (e.g., yourname@yourdomain.com)",
+            "Email hosting setup",
+            "Webmail access",
+            "SPF and DKIM configuration",
+            "IMAP/POP3 support",
+            "Security and spam filtering",
+            "Integration with existing domain services"
+        ],
+        "detailed_description": "Ensure a professional image for your business with personalized email addresses that match your domain. We offer seamless setup and integration, enhancing communication security and reliability.",
+        "freelancer": 1,
+        "price_essential": "99.00",
+        "price_essential_description": "Set Up Your Professional Email Today!",
+        "duration_days": 5,
+        "photo": "static/service/email.webp"
+    }
+},
+{
+    "model": "main.service",
+    "pk": 5,
+    "fields": {
+        "categorie": 9,
+        "title": "Server and DevOps Management",
+        "description": "Expert management of servers and DevOps processes to optimize your web applications.",
+        "features": [
+            "Server setup and configuration",
+            "Continuous integration and deployment (CI/CD)",
+            "Performance monitoring and optimization",
+            "Security auditing and updates",
+            "Backup and disaster recovery planning",
+            "Scaling and load balancing",
+            "DevOps automation (Ansible, Docker, etc.)",
+            "24/7 support and maintenance"
+        ],
+        "detailed_description": "Streamline your operations with our comprehensive server and DevOps management services. From initial setup to ongoing support, we ensure your infrastructure is secure, efficient, and scalable, allowing you to focus on your core business goals.",
+        "freelancer": 1,
+        "price_essential": "299.00",
+        "price_essential_description": "Optimize Your Infrastructure Today!",
+        "duration_days": 10,
+        "photo": "static/service/devops.webp"
+    }
+},
+{
+    "model": "main.service",
+    "pk": 6,
+    "fields": {
+        "categorie": 9,
+        "title": "Website Hosting Solutions",
+        "description": "Reliable hosting solutions for your website, ensuring uptime and performance.",
+        "features": [
+            "Secure and reliable hosting",
+            "Scalable server resources",
+            "SSL certificate installation",
+            "24/7 monitoring and support",
+            "Backup and disaster recovery",
+            "Domain name management",
+            "Customizable server configurations"
+        ],
+        "detailed_description": "Host your website with confidence on our secure servers, optimized for speed and reliability. Our hosting solutions are tailored to meet the needs of businesses of all sizes, ensuring your website is always accessible and performing at its best.",
+        "freelancer": 1,
+        "price_essential": "299.00",
+        "price_essential_description": "Host Your Website Today!",
+        "duration_days": 5,
+        "photo": "static/service/hosting.webp"
+    }
+},
+{
+    "model": "main.categorie",
+    "pk": 6,
+    "fields": {
+        "title": "E-commerce",
+        "description": "E-commerce"
+    }
+},
+{
+    "model": "main.categorie",
+    "pk": 7,
+    "fields": {
+        "title": "Website",
+        "description": "Website"
+    }
+},
+{
+    "model": "main.categorie",
+    "pk": 8,
+    "fields": {
+        "title": "Email",
+        "description": "Email"
+    }
+},
+{
+    "model": "main.categorie",
+    "pk": 9,
+    "fields": {
+        "title": "DevOps",
+        "description": "DevOps"
+    }
+},
+{
+    "model": "main.categorie",
+    "pk": 10,
+    "fields": {
+        "title": "Default",
+        "description": "Default category"
+    }
+}
+]
