@@ -42,6 +42,7 @@ class Service(models.Model):
     price_essential = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     price_essential_description = models.CharField(max_length=200, default="Essential plan description")
     duration_days = models.IntegerField(default=1, help_text="Duration of the service in days")
+    photo = models.ImageField(upload_to='static/service/', null=True, blank=True, help_text="Service photo")
 
     def get_absolute_url(self):
         return reverse('service_detail', args=[str(self.id)])
